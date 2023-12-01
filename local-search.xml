@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>在ubuntu上挂载WebDAV</title>
+    <link href="/2023/12/01/%E5%9C%A8ubuntu%E4%B8%8A%E6%8C%82%E8%BD%BDWebDAV/"/>
+    <url>/2023/12/01/%E5%9C%A8ubuntu%E4%B8%8A%E6%8C%82%E8%BD%BDWebDAV/</url>
+    
+    <content type="html"><![CDATA[<h1 id="WebDAV挂载"><a href="#WebDAV挂载" class="headerlink" title="WebDAV挂载"></a>WebDAV挂载</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">apt install davfs2<br></code></pre></td></tr></table></figure><h2 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sed -i <span class="hljs-string">&#x27;s/# use_locks       1/use_locks       0/g&#x27;</span> /etc/davfs2/davfs2.conf<br></code></pre></td></tr></table></figure><ul><li>保存用户名密码，以后挂载的时候不会要求输入用户名密码！<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;你的WebDAV地址 用户名 密码&quot;</span> &gt;&gt; /etc/davfs2/secrets<br></code></pre></td></tr></table></figure></li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mount -t davfs https://ena.teracloud.jp/dav/ /TeraCloud<br></code></pre></td></tr></table></figure><ul><li>注意：挂载目录TeraCloud必须提前创建好</li></ul><h2 id="可能遇到的报错"><a href="#可能遇到的报错" class="headerlink" title="可能遇到的报错"></a>可能遇到的报错</h2><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">报错 /sbin/mount.davfs:<span class="hljs-keyword">user</span> <span class="hljs-title">&lt;username</span>&gt; must be member of <span class="hljs-keyword">group</span> <span class="hljs-title">davfs2</span><br></code></pre></td></tr></table></figure><ul><li>这个错误提示意味着在尝试使用 <code>mount.davfs</code> 工具挂载 WebDAV 文件共享时，当前用户 不属于 <code>davfs2</code> 用户组。在使用 <code>mount.davfs</code> 工具挂载 WebDAV 文件共享时，需要具有足够的权限才能访问 WebDAV 服务器上的共享资源，因此必须将当前用户添加到 <code>davfs2</code> 用户组中。</li></ul><ol><li><p>确认用户帐户  还没有属于 <code>davfs2</code> 用户组。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">groups</span> ldh<br></code></pre></td></tr></table></figure></li><li><p>如果 <code>davfs2</code> 不在当前用户的用户组列表中，则需要将其添加到该列表中。</p> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo usermod -a -G davfs2 ldh<br></code></pre></td></tr></table></figure></li><li><p>重新登录以使更改生效。可以注销并重新登录，也可以使用以下命令重新启动 <code>mount.davfs</code> 以使更改生效：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo systemctl restart davfs2<br></code></pre></td></tr></table></figure></li></ol><p>现在，可以使用 <code>mount.davfs</code> 工具挂载 WebDAV 文件共享了。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>原创</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>在docker上搭建D1-H哪吒开发板环境</title>
     <link href="/2023/12/01/%E5%9C%A8docker%E4%B8%8A%E6%90%AD%E5%BB%BAD1-H%E5%93%AA%E5%90%92%E5%BC%80%E5%8F%91%E6%9D%BF%E7%8E%AF%E5%A2%83/"/>
     <url>/2023/12/01/%E5%9C%A8docker%E4%B8%8A%E6%90%AD%E5%BB%BAD1-H%E5%93%AA%E5%90%92%E5%BC%80%E5%8F%91%E6%9D%BF%E7%8E%AF%E5%A2%83/</url>
