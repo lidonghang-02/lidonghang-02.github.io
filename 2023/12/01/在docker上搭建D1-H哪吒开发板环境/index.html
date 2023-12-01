@@ -16,22 +16,26 @@
   <meta name="author" content="lidonghang-02">
   <meta name="keywords" content="">
   
-    <meta name="description" content="代码整体非常简单，实现了基础的加密和读写功能">
+    <meta name="description" content="在docker上搭建D1-H哪吒开发板环境官方文档 源码下载创建系统启动docker创建一个ubuntu14.04 1docker run -it --name d1-h ubuntu:14.04  安装必要工具 将&#x2F;etc&#x2F;aot&#x2F;sources.list中的内容替换为下面内容123456789101112deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubun">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简单字符型设备驱动">
-<meta property="og:url" content="http://example.com/2023/11/21/%E7%AE%80%E5%8D%95%E5%AD%97%E7%AC%A6%E5%9E%8B%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/index.html">
+<meta property="og:title" content="在docker上搭建D1-H哪吒开发板环境">
+<meta property="og:url" content="http://example.com/2023/12/01/%E5%9C%A8docker%E4%B8%8A%E6%90%AD%E5%BB%BAD1-H%E5%93%AA%E5%90%92%E5%BC%80%E5%8F%91%E6%9D%BF%E7%8E%AF%E5%A2%83/index.html">
 <meta property="og:site_name" content="LDH blog">
-<meta property="og:description" content="代码整体非常简单，实现了基础的加密和读写功能">
+<meta property="og:description" content="在docker上搭建D1-H哪吒开发板环境官方文档 源码下载创建系统启动docker创建一个ubuntu14.04 1docker run -it --name d1-h ubuntu:14.04  安装必要工具 将&#x2F;etc&#x2F;aot&#x2F;sources.list中的内容替换为下面内容123456789101112deb https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;ubun">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-11-21T09:45:32.175Z">
-<meta property="article:modified_time" content="2023-11-21T09:45:32.175Z">
+<meta property="og:image" content="http://example.com/%E5%9C%A8docker%E4%B8%8A%E6%90%AD%E5%BB%BAD1-H%E5%93%AA%E5%90%92%E5%BC%80%E5%8F%91%E6%9D%BF%E7%8E%AF%E5%A2%83/1.png">
+<meta property="og:image" content="http://example.com/%E5%9C%A8docker%E4%B8%8A%E6%90%AD%E5%BB%BAD1-H%E5%93%AA%E5%90%92%E5%BC%80%E5%8F%91%E6%9D%BF%E7%8E%AF%E5%A2%83/2.png">
+<meta property="og:image" content="http://example.com/%E5%9C%A8docker%E4%B8%8A%E6%90%AD%E5%BB%BAD1-H%E5%93%AA%E5%90%92%E5%BC%80%E5%8F%91%E6%9D%BF%E7%8E%AF%E5%A2%83/3.png">
+<meta property="article:published_time" content="2023-12-01T05:35:55.000Z">
+<meta property="article:modified_time" content="2023-12-01T05:41:30.584Z">
 <meta property="article:author" content="lidonghang-02">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/%E5%9C%A8docker%E4%B8%8A%E6%90%AD%E5%BB%BAD1-H%E5%93%AA%E5%90%92%E5%BC%80%E5%8F%91%E6%9D%BF%E7%8E%AF%E5%A2%83/1.png">
   
   
   
-  <title>简单字符型设备驱动 - LDH blog</title>
+  <title>在docker上搭建D1-H哪吒开发板环境 - LDH blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -226,7 +230,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="简单字符型设备驱动"></span>
+            <span id="subtitle" data-typed-text="在docker上搭建D1-H哪吒开发板环境"></span>
           
         </div>
 
@@ -237,8 +241,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-11-21 17:45" pubdate>
-          2023年11月21日 下午
+        <time datetime="2023-12-01 13:35" pubdate>
+          2023年12月1日 下午
         </time>
       </span>
     
@@ -249,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          2.9k 字
         
       </span>
     
@@ -260,7 +264,7 @@
         
         
         
-          11 分钟
+          25 分钟
         
       </span>
     
@@ -305,88 +309,78 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">简单字符型设备驱动</h1>
+            <h1 id="seo-header">在docker上搭建D1-H哪吒开发板环境</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="简单字符型设备驱动"><a href="#简单字符型设备驱动" class="headerlink" title="简单字符型设备驱动"></a>简单字符型设备驱动</h1><blockquote>
-<p>代码整体非常简单，目前仍有许多bug，是作者初学linux驱动编写的练习，bug未来大概率不会修改</p>
+                <h1 id="在docker上搭建D1-H哪吒开发板环境"><a href="#在docker上搭建D1-H哪吒开发板环境" class="headerlink" title="在docker上搭建D1-H哪吒开发板环境"></a>在docker上搭建D1-H哪吒开发板环境</h1><p><a target="_blank" rel="noopener" href="https://d1.docs.aw-ol.com/study/study_1tina/">官方文档</a></p>
+<h2 id="源码下载"><a href="#源码下载" class="headerlink" title="源码下载"></a>源码下载</h2><h3 id="创建系统"><a href="#创建系统" class="headerlink" title="创建系统"></a>创建系统</h3><p>启动docker创建一个ubuntu14.04</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">docker run -it --name d1-h ubuntu:14.04 <br></code></pre></td></tr></table></figure>
+<h4 id="安装必要工具"><a href="#安装必要工具" class="headerlink" title="安装必要工具"></a>安装必要工具</h4><ol>
+<li>将<code>/etc/aot/sources.list</code>中的内容替换为下面内容<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs 1c">deb https:<span class="hljs-comment">//mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse    </span><br><span class="hljs-meta"># deb-src https:<span class="hljs-comment">//mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty main restricted universe multiverse    </span></span><br>deb https:<span class="hljs-comment">//mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse    </span><br><span class="hljs-meta"># deb-src https:<span class="hljs-comment">//mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-updates main restricted universe multiverse    </span></span><br>deb https:<span class="hljs-comment">//mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted </span><br><span class="hljs-meta"># deb-src https:<span class="hljs-comment">//mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-backports main restricted universe multiverse    </span></span><br>deb https:<span class="hljs-comment">//mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse    </span><br><span class="hljs-meta"># deb-src https:<span class="hljs-comment">//mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-security main restricted universe multiverse    </span></span><br><br><span class="hljs-meta"># 预发布软件源，不建议启用   </span><br><span class="hljs-meta"># deb https:<span class="hljs-comment">//mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse  </span></span><br><span class="hljs-meta"># deb-src https:<span class="hljs-comment">//mirrors.tuna.tsinghua.edu.cn/ubuntu/ trusty-proposed main restricted universe multiverse  </span></span><br></code></pre></td></tr></table></figure></li>
+<li>安装工具<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt-get update<br>sudo apt-get install build-essential subversion git-core libncurses5-dev zlib1g-dev gawk flex quilt libssl-dev xsltproc libxml-parser-perl mercurial bzr ecj cvs unzip lib32z1 lib32z1-dev lib32stdc++6 libstdc++6 bison busybox vim -y<br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="添加密钥"><a href="#添加密钥" class="headerlink" title="添加密钥"></a>添加密钥</h3><ol>
+<li>注册<a target="_blank" rel="noopener" href="https://open.allwinnertech.com/#/login?cas=true">全志客户服务平台</a></li>
+<li>在docker中生成钥匙对，全程回车默认即可<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh-keygen -t rsa<br></code></pre></td></tr></table></figure></li>
+<li>使用<code>cat</code>查看<code>~/.ssh/id_rsa.pub</code>文件中的内容并复制<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> ~/.ssh/id_rsa.pub<br></code></pre></td></tr></table></figure></li>
+<li>添加到全志的平台上<br><img src="/./%E5%9C%A8docker%E4%B8%8A%E6%90%AD%E5%BB%BAD1-H%E5%93%AA%E5%90%92%E5%BC%80%E5%8F%91%E6%9D%BF%E7%8E%AF%E5%A2%83/1.png" srcset="/img/loading.gif" lazyload alt="密钥添加"></li>
+</ol>
+<h3 id="安装repo引导脚本"><a href="#安装repo引导脚本" class="headerlink" title="安装repo引导脚本"></a>安装repo引导脚本</h3><blockquote>
+<p>注意：下载Tina前需要使用AW提供的引导脚本和repo仓库，如已安装了google官方引导脚本，请将google官方引导脚本替换成AW提供的引导脚本，两者不兼容。 </p>
 </blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/lidonghang-02/Simple_character_device_driver">项目地址</a></p>
-<h2 id="整体思路："><a href="#整体思路：" class="headerlink" title="整体思路："></a>整体思路：</h2><ol>
-<li>编写字符型设备驱动程序，实现加解密功能。首先需要定义一个字符型设备驱动程序，注册设备，实现设备文件的打开、关闭、读写和 ioctl 操作函数。在 ioctl 函数中，实现 Setkey、SetMode、StartWrite、StartRead 和 Reset 命令的处理函数，以及加解密算法的实现函数。</li>
-<li>设计测试程序，测试加解密功能是否正确。测试程序可以使用 C语言编写，主要包括小数据加密和大数据加密测试。</li>
-</ol>
-<h2 id="具体代码架构："><a href="#具体代码架构：" class="headerlink" title="具体代码架构："></a>具体代码架构：</h2><ol>
-<li>设备驱动程序部分</li>
-</ol>
-<ul>
-<li>定义设备结构体，包括设备的缓冲区、缓冲区大小、读写指针等信息。</li>
-<li>实现设备文件的打开、关闭、读写和 ioctl 操作函数，其中 ioctl 操作函数主要处理 Setkey、SetMode、StartWrite、StartRead 和 Reset 命令。</li>
-<li>在write和read函数中实现加密解密算法</li>
-</ul>
-<ol start="2">
-<li>测试程序部分</li>
-</ol>
-<ul>
-<li>实现小数据加密和解密的测试函数，测试加密前后数据是否一致。</li>
-<li>实现大数据加密和解密的测试函数，测试多次使用 Write 命令写入数据后，加密前后数据是否一致。</li>
-</ul>
-<ol start="3">
-<li>ioctl 中的各项功能：</li>
-</ol>
-<ul>
-<li>Setkey：设置加密算法的密钥，后面的write会写入密钥。</li>
-<li>SetMode：设置加解密模式，通过 ioctl 命令传递一个表示加密还是解密的标志，将标志保存在设备结构体中。<ul>
-<li>mode有3种模式，加密模式（ENCRYPTION）,解密模式（DECRYPTION），常规模式（NORMAL）</li>
-</ul>
-</li>
-<li>StartWrite：设置开始写入状态，表示后续的数据写入操作是加密数据，并将写指针指向缓冲区的起始位置。</li>
-<li>StartRead：设置开始读出状态，表示后续的数据读出操作是解密数据，并将读指针指向缓冲区的起始位置。</li>
-<li>Reset：清空设备缓冲区，将读写指针重置为缓冲区的起始位置。</li>
-</ul>
-<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><ul>
-<li>写入的数据只能读取一次</li>
-<li>当数据达到1MB时<ul>
-<li>读取速度非常慢，且容易出错</li>
-<li>读取需要采用for循环嵌套的方式读取，只是用read函数读取1024*1024会出错</li>
-</ul>
-</li>
-</ul>
-<h2 id="安装驱动程序"><a href="#安装驱动程序" class="headerlink" title="安装驱动程序"></a>安装驱动程序</h2><p>编译</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">make</span><br></code></pre></td></tr></table></figure>
-
-<p>安装驱动</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">chmod</span> <span class="hljs-number">777</span> encryption.ko<br><span class="hljs-attribute">sudo</span> insmod encryption.ko<br></code></pre></td></tr></table></figure>
-<ul>
-<li>注意：如果安装不成功，提示Device or resource busy，可以使用如下命令查看已占用的设备号，并将源文件中的<code>major</code>修改为空闲设备号，重新编译插入即可：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /proc/devices<br></code></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="编译运行测试文件test-c"><a href="#编译运行测试文件test-c" class="headerlink" title="编译运行测试文件test.c"></a>编译运行测试文件<code>test.c</code></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc <span class="hljs-built_in">test</span>,c -o <span class="hljs-built_in">test</span><br>sudo ./test<br></code></pre></td></tr></table></figure>
-
-<h3 id="测试内容"><a href="#测试内容" class="headerlink" title="测试内容"></a>测试内容</h3><p>测试内容分为小数据和大数据测试两部分</p>
 <ol>
-<li><p>首先设置密钥为<code>asdasd</code></p>
+<li>使用下面命令下载repo引导脚本 <blockquote>
+<p>注意：其中的<code>username</code>要换成上面在全志客户服务平台上注册的用户名</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> ssh://username@sdk.allwinnertech.com/git_repo/repo.git<br></code></pre></td></tr></table></figure>
+如果询问 <code>Are you sure you want to continue connecting (yes/no)?</code> 的时候需要输入 <code>yes</code>。</li>
+</ol>
+<p>如果遇到要求输入密码的问题时可能是上面<code>username</code>或密钥配置错误，可以在<a target="_blank" rel="noopener" href="http://open.allwinnertech.com/guide/yht2/chan_pin_bao_xia_zai/sdk_xiazai_wenti.html">SDK下载常见问题及解决方案</a>寻找解决方案</p>
+<ol start="2">
+<li><p>修改<code>repo/repo</code>的<code>username</code>为自己的用户名</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim repo/repo<br></code></pre></td></tr></table></figure>
+<p><img src="/./%E5%9C%A8docker%E4%B8%8A%E6%90%AD%E5%BB%BAD1-H%E5%93%AA%E5%90%92%E5%BC%80%E5%8F%91%E6%9D%BF%E7%8E%AF%E5%A2%83/2.png" srcset="/img/loading.gif" lazyload alt="修改用户名"><br>修改后输入<code>:wq</code>保存退出</p>
 </li>
-<li><p>小数据测试</p>
-<ul>
-<li>设置加密模式并写入数据<code>qwer</code></li>
-<li>在正常模式下读取数据</li>
-<li>再次设置加密模式并写入数据<code>qwer</code></li>
-<li>在解密模式下读取数据</li>
-</ul>
-</li>
-<li><p>大数据测试</p>
-<ul>
-<li>在加密模式下，使用循环不断写入<code>abc</code>直到1MB</li>
-<li>在解密模式下，使用循环嵌套读取内容写入<code>out.txt</code>文件<ul>
-<li>程序结束后查看<code>out.txt</code>文件的大小可以看到为1MB</li>
-</ul>
-</li>
-</ul>
+<li><p>添加环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cp</span> repo/repo /usr/bin/repo<br><span class="hljs-built_in">chmod</span> 777 /usr/bin/repo<br></code></pre></td></tr></table></figure>
+<p>修改完成后可以使用<code>repo help</code>测试是否成功</p>
 </li>
 </ol>
-<h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h2><p><a target="_blank" rel="noopener" href="https://github.com/lidonghang-02/Simple_character_device_driver">项目地址</a></p>
+<p>如果遇到一些语法报错的问题，可以尝试修改python的版本，修改前确保你要修改的版本已安装</p>
+<p>输入下面命令修改<code>~/.bin/repo</code>文件的第一行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim ~/.bin/repo<br></code></pre></td></tr></table></figure>
+<p><img src="/./%E5%9C%A8docker%E4%B8%8A%E6%90%AD%E5%BB%BAD1-H%E5%93%AA%E5%90%92%E5%BC%80%E5%8F%91%E6%9D%BF%E7%8E%AF%E5%A2%83/3.png" srcset="/img/loading.gif" lazyload alt="修改py版本"><br>这里我修改为了python3.5</p>
+<h3 id="下载SDK"><a href="#下载SDK" class="headerlink" title="下载SDK"></a>下载SDK</h3><ol>
+<li>创建存储文件夹<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> tina &amp;&amp; <span class="hljs-built_in">cd</span> tina<br></code></pre></td></tr></table></figure></li>
+<li>配置git<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">git config --global user.email <span class="hljs-string">&quot;you@example.com&quot;</span><br>git config --global user.name <span class="hljs-string">&quot;Your Name&quot;</span><br></code></pre></td></tr></table></figure></li>
+<li>初始化repo仓库，注意替换下面命令的<code>username</code><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">repo init -u ssh://username@sdk.allwinnertech.com/git_repo/D1_Tina_Open/manifest.git -b master -m tina-d1-h.xml<br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>如果报错可以在<a target="_blank" rel="noopener" href="http://open.allwinnertech.com/guide/yht2/chan_pin_bao_xia_zai/sdk_xiazai_wenti.html">SDK下载常见问题及解决方案</a>寻找解决方案</p>
+<ol start="4">
+<li>同步仓库，并创建开发分支<blockquote>
+<p>如果上面没有修改repo的python版本，则可以直接使用<code>repo</code>命令</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">python2.7 /usr/bin/repo <span class="hljs-built_in">sync</span><br>python2.7 /usr/bin/repo start product-smartx-d1-tina-v1.0-release --all<br></code></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li>在<code>repo sunc</code>时可能会遇到证书验证不通过的问题，可以先尝试执行下面命令更新证书<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">apt update<br>apt install ca-certificates<br>apt upgrade ca-certificates<br></code></pre></td></tr></table></figure>
+如果更新后仍然不通过可以执行下面命令之一禁用SSL验证</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git config --global http.sslVerify <span class="hljs-literal">false</span><br><span class="hljs-comment"># 或</span><br><span class="hljs-built_in">export</span> GIT_SSL_NO_VERIFY=<span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="编译打包"><a href="#编译打包" class="headerlink" title="编译打包"></a>编译打包</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">source</span> build/envsetup.sh<br>lunch<br>make -j32<br>pack<br></code></pre></td></tr></table></figure>
+<ul>
+<li><p>确保在<code>bash</code>终端中执行想面命令</p>
+</li>
+<li><p>lunch中选择方案时输入对应序号即可</p>
+</li>
+<li><p>在<code>make</code>时可能会遇到下面报错</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">configure: error: you should <span class="hljs-keyword">not</span> <span class="hljs-built_in">run</span> configure as root (<span class="hljs-built_in">set</span> <span class="hljs-attribute">FORCE_UNSAFE_CONFIGURE</span>=1 <span class="hljs-keyword">in</span> environment <span class="hljs-keyword">to</span> bypass this check)<br></code></pre></td></tr></table></figure>
+<p>可以尝试下面方法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">export</span> FORCE_UNSAFE_CONFIGURE=1<br>make -j32 FORCE=1<br></code></pre></td></tr></table></figure></li>
+</ul>
 
                 
               </div>
@@ -394,27 +388,6 @@
             <hr/>
             <div>
               <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/C/" class="category-chain-item">C</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
   
   
     <div class="post-meta">
@@ -432,8 +405,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>简单字符型设备驱动</div>
-      <div>http://example.com/2023/11/21/简单字符型设备驱动/</div>
+      <div>在docker上搭建D1-H哪吒开发板环境</div>
+      <div>http://example.com/2023/12/01/在docker上搭建D1-H哪吒开发板环境/</div>
     </div>
     <div class="license-meta">
       
@@ -445,7 +418,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年11月21日</div>
+          <div>2023年12月1日</div>
         </div>
       
       
@@ -477,15 +450,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/12/01/ubuntu%E5%AE%89%E8%A3%85fusuma/" title="ubuntu安装fusuma">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">ubuntu安装fusuma</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2023/12/01/ubuntu%E5%AE%89%E8%A3%85fusuma/" title="ubuntu安装fusuma">
+                        <span class="hidden-mobile">ubuntu安装fusuma</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

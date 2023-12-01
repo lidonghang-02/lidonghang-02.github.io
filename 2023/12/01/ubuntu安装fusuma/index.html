@@ -16,22 +16,22 @@
   <meta name="author" content="lidonghang-02">
   <meta name="keywords" content="">
   
-    <meta name="description" content="代码整体非常简单，实现了基础的加密和读写功能">
+    <meta name="description" content="在ubuntu上安装fusuma，并分享fusuma配置文件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简单字符型设备驱动">
-<meta property="og:url" content="http://example.com/2023/11/21/%E7%AE%80%E5%8D%95%E5%AD%97%E7%AC%A6%E5%9E%8B%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/index.html">
+<meta property="og:title" content="ubuntu安装fusuma">
+<meta property="og:url" content="http://example.com/2023/12/01/ubuntu%E5%AE%89%E8%A3%85fusuma/index.html">
 <meta property="og:site_name" content="LDH blog">
-<meta property="og:description" content="代码整体非常简单，实现了基础的加密和读写功能">
+<meta property="og:description" content="在ubuntu上安装fusuma，并分享fusuma配置文件">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-11-21T09:45:32.175Z">
-<meta property="article:modified_time" content="2023-11-21T09:45:32.175Z">
+<meta property="article:published_time" content="2023-12-01T05:32:54.000Z">
+<meta property="article:modified_time" content="2023-12-01T05:35:13.167Z">
 <meta property="article:author" content="lidonghang-02">
 <meta property="article:tag" content="原创">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>简单字符型设备驱动 - LDH blog</title>
+  <title>ubuntu安装fusuma - LDH blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -226,7 +226,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="简单字符型设备驱动"></span>
+            <span id="subtitle" data-typed-text="ubuntu安装fusuma"></span>
           
         </div>
 
@@ -237,8 +237,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-11-21 17:45" pubdate>
-          2023年11月21日 下午
+        <time datetime="2023-12-01 13:32" pubdate>
+          2023年12月1日 下午
         </time>
       </span>
     
@@ -249,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          2.1k 字
         
       </span>
     
@@ -260,7 +260,7 @@
         
         
         
-          11 分钟
+          18 分钟
         
       </span>
     
@@ -305,88 +305,62 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">简单字符型设备驱动</h1>
+            <h1 id="seo-header">ubuntu安装fusuma</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="简单字符型设备驱动"><a href="#简单字符型设备驱动" class="headerlink" title="简单字符型设备驱动"></a>简单字符型设备驱动</h1><blockquote>
-<p>代码整体非常简单，目前仍有许多bug，是作者初学linux驱动编写的练习，bug未来大概率不会修改</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://github.com/lidonghang-02/Simple_character_device_driver">项目地址</a></p>
-<h2 id="整体思路："><a href="#整体思路：" class="headerlink" title="整体思路："></a>整体思路：</h2><ol>
-<li>编写字符型设备驱动程序，实现加解密功能。首先需要定义一个字符型设备驱动程序，注册设备，实现设备文件的打开、关闭、读写和 ioctl 操作函数。在 ioctl 函数中，实现 Setkey、SetMode、StartWrite、StartRead 和 Reset 命令的处理函数，以及加解密算法的实现函数。</li>
-<li>设计测试程序，测试加解密功能是否正确。测试程序可以使用 C语言编写，主要包括小数据加密和大数据加密测试。</li>
-</ol>
-<h2 id="具体代码架构："><a href="#具体代码架构：" class="headerlink" title="具体代码架构："></a>具体代码架构：</h2><ol>
-<li>设备驱动程序部分</li>
-</ol>
-<ul>
-<li>定义设备结构体，包括设备的缓冲区、缓冲区大小、读写指针等信息。</li>
-<li>实现设备文件的打开、关闭、读写和 ioctl 操作函数，其中 ioctl 操作函数主要处理 Setkey、SetMode、StartWrite、StartRead 和 Reset 命令。</li>
-<li>在write和read函数中实现加密解密算法</li>
-</ul>
-<ol start="2">
-<li>测试程序部分</li>
-</ol>
-<ul>
-<li>实现小数据加密和解密的测试函数，测试加密前后数据是否一致。</li>
-<li>实现大数据加密和解密的测试函数，测试多次使用 Write 命令写入数据后，加密前后数据是否一致。</li>
-</ul>
-<ol start="3">
-<li>ioctl 中的各项功能：</li>
-</ol>
-<ul>
-<li>Setkey：设置加密算法的密钥，后面的write会写入密钥。</li>
-<li>SetMode：设置加解密模式，通过 ioctl 命令传递一个表示加密还是解密的标志，将标志保存在设备结构体中。<ul>
-<li>mode有3种模式，加密模式（ENCRYPTION）,解密模式（DECRYPTION），常规模式（NORMAL）</li>
-</ul>
-</li>
-<li>StartWrite：设置开始写入状态，表示后续的数据写入操作是加密数据，并将写指针指向缓冲区的起始位置。</li>
-<li>StartRead：设置开始读出状态，表示后续的数据读出操作是解密数据，并将读指针指向缓冲区的起始位置。</li>
-<li>Reset：清空设备缓冲区，将读写指针重置为缓冲区的起始位置。</li>
-</ul>
-<h2 id="缺陷"><a href="#缺陷" class="headerlink" title="缺陷"></a>缺陷</h2><ul>
-<li>写入的数据只能读取一次</li>
-<li>当数据达到1MB时<ul>
-<li>读取速度非常慢，且容易出错</li>
-<li>读取需要采用for循环嵌套的方式读取，只是用read函数读取1024*1024会出错</li>
-</ul>
-</li>
-</ul>
-<h2 id="安装驱动程序"><a href="#安装驱动程序" class="headerlink" title="安装驱动程序"></a>安装驱动程序</h2><p>编译</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">make</span><br></code></pre></td></tr></table></figure>
+                <h1 id="安装fusuma"><a href="#安装fusuma" class="headerlink" title="安装fusuma"></a>安装fusuma</h1><p><a target="_blank" rel="noopener" href="https://github.com/iberianpig/fusuma">fusuma官网</a></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="授予读取触摸板设备的权限"><a href="#授予读取触摸板设备的权限" class="headerlink" title="授予读取触摸板设备的权限"></a>授予读取触摸板设备的权限</h3><p>必须是 Input 组的成员才能阅读 Fusuma 的触摸板。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo gpasswd -a <span class="hljs-variable">$USER</span> input<br></code></pre></td></tr></table></figure>
+<p>重启</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">reboot<br></code></pre></td></tr></table></figure>
 
-<p>安装驱动</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">chmod</span> <span class="hljs-number">777</span> encryption.ko<br><span class="hljs-attribute">sudo</span> insmod encryption.ko<br></code></pre></td></tr></table></figure>
+<h3 id="安装依赖项"><a href="#安装依赖项" class="headerlink" title="安装依赖项"></a>安装依赖项</h3><ol>
+<li>安装libinput-tools<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt-get install libinput-tools<br></code></pre></td></tr></table></figure></li>
+<li>安装Ruby（fusuma基于Ruby运行）<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt-get install ruby<br></code></pre></td></tr></table></figure></li>
+<li>安装fusuma<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo gem install fusuma<br></code></pre></td></tr></table></figure>
+ ** <em>如果上面命令正常运可直接跳到第四步</em>**</li>
+</ol>
+<p> 注意：当在安装gem的时候有时会报下面的错误，或是gem install 太慢 或是无法联接 timeout</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-symbol">WARNING: </span>RubyGems 1.2+ index not found for:<br><br>RubyGems will revert to legacy indexes degrading performance.<br></code></pre></td></tr></table></figure>
+<p>这时可以采用本地安装的方式</p>
 <ul>
-<li>注意：如果安装不成功，提示Device or resource busy，可以使用如下命令查看已占用的设备号，并将源文件中的<code>major</code>修改为空闲设备号，重新编译插入即可：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> /proc/devices<br></code></pre></td></tr></table></figure></li>
+<li>可以在<a target="_blank" rel="noopener" href="https://rubygems.org/">Ruby官网</a>在中下载<code>fusuma</code>安装包本地安装，直接搜索<code>fusuma</code>即可</li>
 </ul>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="编译运行测试文件test-c"><a href="#编译运行测试文件test-c" class="headerlink" title="编译运行测试文件test.c"></a>编译运行测试文件<code>test.c</code></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">gcc <span class="hljs-built_in">test</span>,c -o <span class="hljs-built_in">test</span><br>sudo ./test<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gem install -l xxx.gem文件<br></code></pre></td></tr></table></figure>
 
-<h3 id="测试内容"><a href="#测试内容" class="headerlink" title="测试内容"></a>测试内容</h3><p>测试内容分为小数据和大数据测试两部分</p>
-<ol>
-<li><p>首先设置密钥为<code>asdasd</code></p>
+<ol start="4">
+<li>安装键盘模拟工具xdotool (optional)(fusuma通过此软件模拟快捷键)<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt-get install xdotool<br></code></pre></td></tr></table></figure></li>
+</ol>
+<hr>
+<h2 id="如何启用"><a href="#如何启用" class="headerlink" title="如何启用"></a>如何启用</h2><ol>
+<li><p>在终端中输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">fusuma<br></code></pre></td></tr></table></figure>
+<p>如果在GNOME中无反应：<br>通过运行以下命令，确保触摸板事件已发送到 GNOME 桌面：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gsettings <span class="hljs-built_in">set</span> org.gnome.desktop.peripherals.touchpad send-events enabled<br></code></pre></td></tr></table></figure>
 </li>
-<li><p>小数据测试</p>
-<ul>
-<li>设置加密模式并写入数据<code>qwer</code></li>
-<li>在正常模式下读取数据</li>
-<li>再次设置加密模式并写入数据<code>qwer</code></li>
-<li>在解密模式下读取数据</li>
-</ul>
-</li>
-<li><p>大数据测试</p>
-<ul>
-<li>在加密模式下，使用循环不断写入<code>abc</code>直到1MB</li>
-<li>在解密模式下，使用循环嵌套读取内容写入<code>out.txt</code>文件<ul>
-<li>程序结束后查看<code>out.txt</code>文件的大小可以看到为1MB</li>
-</ul>
-</li>
-</ul>
+<li><p>开机自启设置</p>
 </li>
 </ol>
-<h2 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h2><p><a target="_blank" rel="noopener" href="https://github.com/lidonghang-02/Simple_character_device_driver">项目地址</a></p>
+<ul>
+<li>找到“启用应用程序”</li>
+<li>打开启用应用程序，找到“添加”按钮</li>
+<li>在“名称”中填写应用名称<code>fusuma</code>，在“命令”填写<code>fusuma</code></li>
+<li>点击“添加”,fusuma就可以开机自启了。</li>
+</ul>
+<hr>
+<h2 id="fusuma配置文件"><a href="#fusuma配置文件" class="headerlink" title="fusuma配置文件"></a>fusuma配置文件</h2><h2 id="Fusuma是一个命令行工具，所有操作都在终端中进行-打开fusuma的配置文件：-配置文件的绝对路径为：-用文件夹查看记得勾选“显示隐藏文件”"><a href="#Fusuma是一个命令行工具，所有操作都在终端中进行-打开fusuma的配置文件：-配置文件的绝对路径为：-用文件夹查看记得勾选“显示隐藏文件”" class="headerlink" title="Fusuma是一个命令行工具，所有操作都在终端中进行- 打开fusuma的配置文件：- 配置文件的绝对路径为：- 用文件夹查看记得勾选“显示隐藏文件”"></a>Fusuma是一个命令行工具，所有操作都在终端中进行<br>- 打开fusuma的配置文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">nano ~/.config/fusuma/config.yml<br></code></pre></td></tr></table></figure><br>- 配置文件的绝对路径为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">~/.config/fusuma/config.yml<br></code></pre></td></tr></table></figure><br>- 用文件夹查看记得勾选“显示隐藏文件”</h2><h3 id="如何配置请查阅fusuma官网"><a href="#如何配置请查阅fusuma官网" class="headerlink" title="如何配置请查阅fusuma官网"></a>如何配置请查阅<a target="_blank" rel="noopener" href="https://github.com/iberianpig/fusuma">fusuma官网</a></h3><p>默认配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs bash">swipe:<br>  3: <br>    left: <br>      shortcut: <span class="hljs-string">&#x27;alt+Left&#x27;</span><br>    right: <br>      shortcut: <span class="hljs-string">&#x27;alt+Right&#x27;</span><br>    up: <br>      shortcut: <span class="hljs-string">&#x27;ctrl+t&#x27;</span><br>    down: <br>      shortcut: <span class="hljs-string">&#x27;ctrl+w&#x27;</span><br>  4:<br>    left: <br>      shortcut: <span class="hljs-string">&#x27;super+Left&#x27;</span><br>    right: <br>      shortcut: <span class="hljs-string">&#x27;super+Right&#x27;</span><br>    up: <br>      shortcut: <span class="hljs-string">&#x27;super+a&#x27;</span><br>    down: <br>      shortcut: <span class="hljs-string">&#x27;super+s&#x27;</span><br>pinch:<br>  <span class="hljs-keyword">in</span>:<br>    shortcut: <span class="hljs-string">&#x27;ctrl+plus&#x27;</span><br>  out:<br>     shortcut: <span class="hljs-string">&#x27;ctrl+minus&#x27;</span><br> <br>threshold:<br>  swipe: 1<br>  pinch: 1<br> <br>interval:<br>  swipe: 1<br>  pinch: 1<br></code></pre></td></tr></table></figure>
+
+<p>我的配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs bash">swipe:<br>  3:<br>    left:<br>      <span class="hljs-built_in">command</span>: <span class="hljs-string">&#x27;xdotool key alt+Left&#x27;</span><br>    right:<br>      <span class="hljs-built_in">command</span>: <span class="hljs-string">&#x27;xdotool key alt+Right&#x27;</span><br>    up:<br>      <span class="hljs-built_in">command</span>: <span class="hljs-string">&#x27;xdotool key ctrl+alt+Down&#x27;</span><br>      threshold: 1.5<br>    down:<br>      <span class="hljs-built_in">command</span>: <span class="hljs-string">&#x27;xdotool key ctrl+alt+Up&#x27;</span><br>      threshold: 1.5<br>  4:<br>    left:<br>      <span class="hljs-built_in">command</span>: <span class="hljs-string">&#x27;xdotool key super+Left&#x27;</span><br>    right:<br>      <span class="hljs-built_in">command</span>: <span class="hljs-string">&#x27;xdotool key super+Right&#x27;</span><br>    up:<br>      <span class="hljs-built_in">command</span>: <span class="hljs-string">&#x27;xdotool key super+Up&#x27;</span><br>    down:<br>      <span class="hljs-built_in">command</span>: <span class="hljs-string">&#x27;xdotool key super+s&#x27;</span><br>pinch:<br>  2:<br>    <span class="hljs-keyword">in</span>:<br>      <span class="hljs-built_in">command</span>: <span class="hljs-string">&#x27;xdotool key ctrl+equal&#x27;</span><br>      threshold: 0.1<br>    out:<br>      <span class="hljs-built_in">command</span>: <span class="hljs-string">&#x27;xdotool key ctrl+minus&#x27;</span><br>      threshold: 0.1<br><br>threshold:<br>  swipe: 1<br>  pinch: 1<br><br>interval:<br>  swipe: 1<br>  pinch: 1<br></code></pre></td></tr></table></figure>
+
+<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h3 id="fusuma正常卸载即可"><a href="#fusuma正常卸载即可" class="headerlink" title="fusuma正常卸载即可"></a><code>fusuma</code>正常卸载即可</h3><h3 id="卸载Ruby和gem"><a href="#卸载Ruby和gem" class="headerlink" title="卸载Ruby和gem"></a>卸载Ruby和gem</h3><ol>
+<li>如果是使用Ubuntu软件包安装的<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sudo apt-get purge ruby rubygems <br></code></pre></td></tr></table></figure>
+  如果您使用RVM安装Ruby，以下命令将完全删除RVM安装目录<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">rvm implode <br></code></pre></td></tr></table></figure></li>
+<li>删除Ruby Gems<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gem uninstall rvm <br></code></pre></td></tr></table></figure></li>
+</ol>
 
                 
               </div>
@@ -394,27 +368,6 @@
             <hr/>
             <div>
               <div class="post-metas my-3">
-  
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
-      
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/C/" class="category-chain-item">C</a>
-  
-  
-
-      </span>
-    
-  
-</span>
-
-    </div>
   
   
     <div class="post-meta">
@@ -432,8 +385,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>简单字符型设备驱动</div>
-      <div>http://example.com/2023/11/21/简单字符型设备驱动/</div>
+      <div>ubuntu安装fusuma</div>
+      <div>http://example.com/2023/12/01/ubuntu安装fusuma/</div>
     </div>
     <div class="license-meta">
       
@@ -445,7 +398,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年11月21日</div>
+          <div>2023年12月1日</div>
         </div>
       
       
@@ -477,15 +430,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/12/01/ubuntu%E5%AE%89%E8%A3%85fusuma/" title="ubuntu安装fusuma">
+                      <a href="/2023/12/01/%E5%9C%A8docker%E4%B8%8A%E6%90%AD%E5%BB%BAD1-H%E5%93%AA%E5%90%92%E5%BC%80%E5%8F%91%E6%9D%BF%E7%8E%AF%E5%A2%83/" title="在docker上搭建D1-H哪吒开发板环境">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">ubuntu安装fusuma</span>
+                        <span class="hidden-mobile">在docker上搭建D1-H哪吒开发板环境</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2023/11/21/%E7%AE%80%E5%8D%95%E5%AD%97%E7%AC%A6%E5%9E%8B%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/" title="简单字符型设备驱动">
+                        <span class="hidden-mobile">简单字符型设备驱动</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
