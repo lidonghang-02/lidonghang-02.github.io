@@ -1,0 +1,703 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="lidonghang-02">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Wall。">
+<meta property="og:title" content="[Linux内核驱动]数据类型">
+<meta property="og:url" content="http://example.com/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="LDH blog">
+<meta property="og:description" content="Wall。">
+<meta property="article:published_time" content="2024-06-30T00:00:00.000Z">
+<meta property="article:modified_time" content="2024-06-30T00:00:00.000Z">
+<meta property="article:author" content="lidonghang-02">
+<meta property="article:tag" content="原创">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>[Linux内核驱动]数据类型 - LDH blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修-->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css?v=20260620-home-title-blog-1" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"0r6Gu1FDMfgWqlGYZ7ajgr5Z-MdYXbMMI","app_key":"lDtuGLuwzxbRgeIpWrrzqVeV","server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  <script defer src="/js/site-shell.js?v=20260620-home-title-blog-1" ></script>
+  
+
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>LDH Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="[Linux内核驱动]数据类型">[Linux内核驱动]数据类型</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-06-30 19:24:05" pubdate>2024-06-30</time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k         
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span>        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">[Linux内核驱动]数据类型</h1>
+            
+            
+              <div class="markdown-body">
+<h2 id="可移植性"><a href="#%E5%8F%AF%E7%A7%BB%E6%A4%8D%E6%80%A7" class="headerlink" title="可移植性"></a>可移植性</h2>
+<h3 id="关于跨平台可移植性"><a href="#%E5%85%B3%E4%BA%8E%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%8F%AF%E7%A7%BB%E6%A4%8D%E6%80%A7" class="headerlink" title="关于跨平台可移植性"></a>关于跨平台可移植性</h3>
+<p>- 在编译时可以使用 -Wall 选项，启用几乎所有的警告。这有助于发现潜在的错误和不可移植的代码。 - 使用标准类型：使用&lt;stdint.h&gt;中定义的大小确定类型可以提高代码的可移植性。</p>
+<h3 id="内核对象数据类型"><a href="#%E5%86%85%E6%A0%B8%E5%AF%B9%E8%B1%A1%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B" class="headerlink" title="内核对象数据类型"></a>内核对象数据类型</h3>
+<p>不同的架构，基础类型大小可能不同，主要区别在long和指针上</p>
+<h4 id="标准C语言类型"><a href="#%E6%A0%87%E5%87%86C%E8%AF%AD%E8%A8%80%E7%B1%BB%E5%9E%8B" class="headerlink" title="标准C语言类型"></a>标准C语言类型</h4>
+<p>- char、short、int、long long在不同的平台上大小不变。 - long、ptr(指针)平台不同其大小不同，但二者的大小始终相同。 - char的符号问题：</p>
+<p>- 大多数平台上char默认是signed，但有些平台上默认是 unsigned。 - char i = -1; 大部分平台上i是-1，有些平台上是255。 - 应该使用：signed char i = -1; unsigned char i = 255;</p>
+<h4 id="确定大小的类型"><a href="#%E7%A1%AE%E5%AE%9A%E5%A4%A7%E5%B0%8F%E7%9A%84%E7%B1%BB%E5%9E%8B" class="headerlink" title="确定大小的类型"></a>确定大小的类型</h4>
+<p>&lt;stdint.h&gt;中定义</p>
+<p>内核：当需要知道你定义的数据的大小时，可以使用内核提供的下列数据类型：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">u8; /* unsigned byte (8 bits) */
+u16; /* unsigned word (16 bits) */
+u32; /* unsigned 32-bit value */
+u64; /* unsigned 64-bit value */
+
+/*虽然很少需要有符号类型，但是如果需要，只要用 s 代替 u*/</code></pre></td></tr></table></figure>
+<p>用户空间 ： 若一个程序用户空间需要使用这些类型，可在符号前加一个双下划线 __u8（头文件linux/types.h）。</p>
+<h4 id="特定内核对象"><a href="#%E7%89%B9%E5%AE%9A%E5%86%85%E6%A0%B8%E5%AF%B9%E8%B1%A1" class="headerlink" title="特定内核对象"></a>特定内核对象</h4>
+<p>在内核编程中，通常会使用一些特定于内核的类型来表示对象，如进程ID（pid_t）、文件描述符（fd_t）等。这些类型的大小也可能因平台而异，但它们通常由内核定义，并保证了在特定平台上的一致性。</p>
+<h3 id="字节序"><a href="#%E5%AD%97%E8%8A%82%E5%BA%8F" class="headerlink" title="字节序"></a>字节序</h3>
+<h4 id="大小端"><a href="#%E5%A4%A7%E5%B0%8F%E7%AB%AF" class="headerlink" title="大小端"></a>大小端</h4>
+<p>大小端是指多字节数据在内存中的存储顺序。</p>
+<p>大端模式（Big-Endian）：高位字节数据存放在低地址处，低位数据存放在高地址处</p>
+<p>小端模式（Little-Endian）:高位字节数据存放在高地址处，低位数据存放在低地址处</p>
+<p>给一个整形数据0x12345678</p>
+<p>大端存储: 0x78 0x56 0x34 0x12 (高地址-&gt;低地址)</p>
+<p>小端存储: 0x12 0x34 0x56 0x78 (高地址-&gt;低地址)</p>
+<h4 id="转换函数"><a href="#%E8%BD%AC%E6%8D%A2%E5%87%BD%E6%95%B0" class="headerlink" title="转换函数"></a>转换函数</h4>
+<p>为了在不同的大小端系统之间交换数据，需要使用一些转换函数。例如，cpu_to_le32()和le32_to_cpu()用于在小端系统和网络字节序（也是小端）之间进行转换；cpu_to_be32()和be32_to_cpu()用于在大端系统和网络字节序之间进行转换。另外，htonl()、ntohl()、htons()和ntohs()等函数也用于主机和网络字节序之间的转换。</p>
+<p>在头文件&lt;linux/byteorder.h&gt;中</p>
+<p>- u32 cpu_to_le32 (u32)：把cpu字节序转为小端字节序 - u32 le32_to_cpu (u32)：把小端字节序转为cpu字节序 - u32 cpu_to_be32(u32)：把cpu字节序转为大端字节序 - u32 be32_to_cpu(u32)：把大端字节序转为cpu字节序</p>
+<p>下面函数通常用于网络字节序（通常是大端字节序）和主机字节序之间进行转换</p>
+<p>- uint32_t htonl(uint32_t hostlong)：将主机字节序的32位无符号整数转换为网络字节序（大端） - uint16_t htons(uint16_t hostshort)：将主机字节序的16位无符号整数转换为网络字节序（大端） - uint32_t ntohl(uint32_t netlong)：将网络字节序的32位无符号整数转换为主机字节序 - uint16_t ntohs(uint16_t netshort)：将网络字节序的16位无符号整数转换为主机字节序（大端）</p>
+<h3 id="数据对齐"><a href="#%E6%95%B0%E6%8D%AE%E5%AF%B9%E9%BD%90" class="headerlink" title="数据对齐"></a>数据对齐</h3>
+<p>GNU C 通过 __attribute__ 来声明 aligned 和 packed 属性，指定一个变量或类型的对齐方式。这两个属性用来告诉编译器：在给变量分配存储空间时，要按指定的地址对齐方式给变量分配地址。如果你想定义一个变量，在内存中以8字节地址对齐，就可以这样定义。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">int a __attribute__((aligned(8));</code></pre></td></tr></table></figure>
+<p>通过 aligned 属性，我们可以直接显式指定变量 a 在内存中的地址对齐方式。aligned 有一个参数，表示要按几字节对齐，使用时要注意地址对齐的字节数必须是2的幂次方，否则编译就会出错。</p>
+<p>packed 是__attribute__的一个常见用法，当将packed属性应用于结构体或联合体时，它会消除结构体内的任何填充（padding），确保结构体或联合体的成员在内存中紧密排列，没有间隙。</p>
+<p>例如：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">struct __attribute__((packed)) MyStruct {
+    char a;
+    int b;
+};</code></pre></td></tr></table></figure>
+<p>在上面的代码中，MyStruct结构体被标记为packed。如果没有packed属性，编译器可能会在char a和int b之间插入填充（padding），以确保int b按照其自然的对齐要求进行内存对齐。但是，由于packed属性的存在，编译器不会插入任何填充，因此char a和int b会紧密地连续存储在内存中。</p>
+<h3 id="其他问题"><a href="#%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98" class="headerlink" title="其他问题"></a>其他问题</h3>
+<p>- 时间间隔:使用HZ代表一秒,不能假定每秒就1000个jiffies。 - 页大小：页大小为PAGE_SIZE,不要假设4K</p>
+<h3 id="代码"><a href="#%E4%BB%A3%E7%A0%81" class="headerlink" title="代码"></a>代码</h3>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">#include &lt;linux/module.h&gt;
+#include &lt;linux/kernel.h&gt;
+#include &lt;linux/types.h&gt;
+#include &lt;linux/utsname.h&gt;
+
+static int data_init_module(void)
+{
+    printk(&quot;char short int long ptr long-long u8 u16 u32 u64\n&quot;);
+    printk(&quot;%3i %3i %3i %3i %3i %3i %3i %3i %3i %3i\n&quot;,
+    (int)sizeof(char), (int)sizeof(short), (int)sizeof(int),
+    (int)sizeof(long), (int)sizeof(void*), (int)sizeof(long long),
+    (int)sizeof(__u8), (int)sizeof(__u16), (int)sizeof(__u32),
+    (int)sizeof(__u64));
+
+    printk(&quot;le32:%x be32:%x htonl:%x ntohl:%x\n&quot;,
+    cpu_to_le32(0x1234abcd), cpu_to_be32(0x1234abcd),
+    htonl(0x1234abcd), ntohl(0x1234abcd));
+    return 0;
+}
+
+static void data_exit_module(void)
+{
+}
+module_init(data_init_module);
+module_exit(data_exit_module);
+
+MODULE_AUTHOR(&quot;lidonghang-02&quot;);
+MODULE_LICENSE(&quot;GPL&quot;);</code></pre></td></tr></table></figure>
+</div>
+          </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"0r6Gu1FDMfgWqlGYZ7ajgr5Z-MdYXbMMI","appKey":"lDtuGLuwzxbRgeIpWrrzqVeV","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量
+        <span id="leancloud-site-pv"></span>
+              </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数
+        <span id="leancloud-site-uv"></span>
+              </span>
+    
+    
+
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

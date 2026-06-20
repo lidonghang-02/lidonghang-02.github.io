@@ -16,12 +16,12 @@
   <meta name="author" content="lidonghang-02">
   <meta name="keywords" content="">
   
-    <meta name="description" content="D1-H哪吒开发板GPIO使用基 于 开 发 板 的 Tina_Linux 操 作 系 统 , 可 以 通 过 sysfs 方 式 控 制 GPIO(&#x2F;sys&#x2F;class&#x2F;gpio)。基本原理如下。 查看系统中有没有&#x2F;sys&#x2F;class&#x2F;gpio这个文件夹,如果没有就在编译内核的时候勾选 Device Drivers-&gt; GPIO Support -&gt;&#x2F;sys&#x2F;class&#x2F;gpio&#x2F;.">
+    <meta name="description" content="D1-H哪吒开发板GPIO使用 基 于 开 发 板 的 Tina_Linux 操 作 系 统 , 可 以 通 过 sysfs 方 式 控 制 GPIO ( /sys/class/gpio )。基本原理如下。 查看系统中有没有 /sys/class/gpio 这个文件夹,如果没有就在编译内核的时候勾选 Device Drivers-&gt; GPIO Support">
 <meta property="og:type" content="article">
 <meta property="og:title" content="D1-H哪吒开发板GPIO使用">
 <meta property="og:url" content="http://example.com/2024/03/05/D1-H%E5%93%AA%E5%90%92%E5%BC%80%E5%8F%91%E6%9D%BFGPIO%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="LDH blog">
-<meta property="og:description" content="D1-H哪吒开发板GPIO使用基 于 开 发 板 的 Tina_Linux 操 作 系 统 , 可 以 通 过 sysfs 方 式 控 制 GPIO(&#x2F;sys&#x2F;class&#x2F;gpio)。基本原理如下。 查看系统中有没有&#x2F;sys&#x2F;class&#x2F;gpio这个文件夹,如果没有就在编译内核的时候勾选 Device Drivers-&gt; GPIO Support -&gt;&#x2F;sys&#x2F;class&#x2F;gpio&#x2F;.">
+<meta property="og:description" content="D1-H哪吒开发板GPIO使用 基 于 开 发 板 的 Tina_Linux 操 作 系 统 , 可 以 通 过 sysfs 方 式 控 制 GPIO ( /sys/class/gpio )。基本原理如下。 查看系统中有没有 /sys/class/gpio 这个文件夹,如果没有就在编译内核的时候勾选 Device Drivers-&gt; GPIO Support">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-03-05T04:54:47.000Z">
 <meta property="article:modified_time" content="2024-03-05T04:55:09.741Z">
@@ -45,7 +45,7 @@
 
 
 
-<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- 主题依赖的图标库，不要自行修?-->
 <!-- Do not modify the link that theme dependent icons -->
 
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
@@ -55,7 +55,7 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
+<link  rel="stylesheet" href="/css/main.css?v=20260620-home-title-blog-1" />
 
 
   <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
@@ -78,6 +78,7 @@
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
+  <script defer src="/js/site-shell.js?v=20260620-home-title-blog-1" ></script>
   
 
   
@@ -226,7 +227,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="D1-H哪吒开发板GPIO使用"></span>
+            <span id="subtitle" data-typed-text="D1-H哪吒开发板GPIO使用">D1-H哪吒开发板GPIO使用</span>
           
         </div>
 
@@ -237,9 +238,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-05 12:54" pubdate>
-          2024年3月5日 下午
-        </time>
+        <time datetime="2024-03-05 00:00" pubdate>2024-03-05</time>
       </span>
     
   </div>
@@ -249,7 +248,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.2k 字
+          3.2k
         
       </span>
     
@@ -270,7 +269,7 @@
       
         <span id="leancloud-page-views-container" class="post-meta" style="display: none">
           <i class="iconfont icon-eye" aria-hidden="true"></i>
-          <span id="leancloud-page-views"></span>次
+          <span id="leancloud-page-views"></span>?
         </span>
         
       
@@ -309,43 +308,8 @@
             
             
               <div class="markdown-body">
-                
-                <h1 id="D1-H哪吒开发板GPIO使用"><a href="#D1-H哪吒开发板GPIO使用" class="headerlink" title="D1-H哪吒开发板GPIO使用"></a>D1-H哪吒开发板GPIO使用</h1><p>基 于 开 发 板 的 Tina_Linux 操 作 系 统 , 可 以 通 过 sysfs 方 式 控 制 GPIO<br>(<code>/sys/class/gpio</code>)。基本原理如下。</p>
-<p>查看系统中有没有<code>/sys/class/gpio</code>这个文件夹,如果没有就在编译内核的时候勾选<code> Device Drivers-&gt; GPIO Support -&gt;/sys/class/gpio/... (sysfsinterface)</code>。</p>
-<p>通过 sysfs 方式控制 GPIO,先访问<code>/sys/class/gpio</code> 目录,向 <code>export</code> 文件写入GPIO 编号,使得该 GPIO 的操作接口从内核空间暴露到用户空间,GPIO 的操作接口包括 <code>direction</code> 和 <code>value</code> 等,<code>direction</code> 控制 GPIO 方向,而 <code>value</code> 可控制 GPIO 输出或获得 GPIO 输入。文件 IO 方式操作 GPIO,使用到了 4 个函数 <code>open</code>、<code>close</code>、<code>read</code>、<code>write</code>。</p>
-<ol>
-<li><code>gpio_operation</code> 通过<code>/sys/</code>文件接口操作 IO 端口 GPIO 到文件系统<br>的映射:<ul>
-<li>控制 GPIO 的目录位于<code>/sys/class/gpio</code>。		</li>
-<li><code>/sys/class/gpio/export</code> 文件用于通知系统需要导出控制的 GPIO 引脚<br> 编号。</li>
-<li><code>/sys/class/gpio/unexport</code>用于通知系统取消导出。</li>
-<li><code>/sys/class/gpio/gpiochipX</code> 目录保存系统中 GPIO 寄存器的信息,包括<br> 每个寄存器控制引脚的起始编号 base,寄存器名称,引脚总数 导出一个引脚的<br> 操作。</li>
-<li><code>/sys/class/gpio/gpioX/direction</code> 文件,定义输入输入方向,可以通<br> 过下面命令定义为输出。<code>direction</code> 接受的参数:<code>in, out, high, low。high/low</code>同时设置方向为输出,并将 <code>value</code> 设置为相应的 <code>1/0</code></li>
-<li><code>/sys/class/gpio/gpioX/value</code> 文件是端口的数值,为 1 或 0</li>
-</ul>
-</li>
-<li>在Tina-Linux系统中操作<ul>
-<li>导出：<code> echo 65 &gt; export</code></li>
-<li>取消导出：<code>echo 65 &gt; unexport</code></li>
-<li>设置方向：<code>echo out &gt; direction</code></li>
-<li>查看方向：<code>cat direction</code></li>
-<li>设置输出：<code>/echo 1 &gt; value</code></li>
-<li>查看输出值：<code>cat value</code></li>
-</ul>
-</li>
-</ol>
-<p>使用时需要计算 GPIO 的编号,比如需要采用 <code>PC1</code>,那么 C 组是第三组那<br>么可以利用公式<br>$$num &#x3D; (n-1) * 32 + m$$<br>其中 <code>num</code> 是 GPIO 的编号,<code>n</code> 是第几组 gpio,<code>m</code> 是当前的 gpio 的序号。经过计算 PC1 的 GPIO 编号为 65。</p>
-<p>所以当执行<code>echo 65 &gt; /sys/class/gpio/export</code>会在<code>/sys/class/gpio/</code>文件夹中生成 <code>gpio65</code> 这个目录,里面有些文件可以设置 GPIO 的值。</p>
-<ol start="3">
-<li>在 C 程序中使用<ol>
-<li>在<code>/sys/class/gpio/</code>生成 gpio 相关的文件夹，使用<code>gpio_export()</code></li>
-<li>设置 gpio 输入输出方向，使用<code>gpio_set_dir()</code></li>
-<li>读写 gpio 的值，使用<code>gpio_set_value()</code>或<code>gpio_get_value()</code><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> SYSFS_GPIO_DIR <span class="hljs-string">&quot;/sys/class/gpio&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_BUF 64</span><br><span class="hljs-comment">// 导出</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">gpio_export</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> gpio)</span><br>&#123;<br>    <span class="hljs-type">int</span> fd, len;<br>    <span class="hljs-type">char</span> buf[MAX_BUF];<br><br>    fd = open(SYSFS_GPIO_DIR <span class="hljs-string">&quot;/export&quot;</span>, O_WRONLY);<br>    <span class="hljs-keyword">if</span> (fd &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        perror(<span class="hljs-string">&quot;gpio/export&quot;</span>);<br>        <span class="hljs-keyword">return</span> fd;<br>    &#125;<br><br>    len = <span class="hljs-built_in">snprintf</span>(buf, <span class="hljs-keyword">sizeof</span>(buf), <span class="hljs-string">&quot;%d&quot;</span>, gpio);<br>    write(fd, buf, len);<br>    close(fd);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">// 取消导出</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">gpio_unexport</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> gpio)</span><br>&#123;<br>    <span class="hljs-type">int</span> fd, len;<br>    <span class="hljs-type">char</span> buf[MAX_BUF];<br><br>    fd = open(SYSFS_GPIO_DIR <span class="hljs-string">&quot;/unexport&quot;</span>, O_WRONLY);<br>    <span class="hljs-keyword">if</span> (fd &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        perror(<span class="hljs-string">&quot;gpio/export&quot;</span>);<br>        <span class="hljs-keyword">return</span> fd;<br>    &#125;<br><br>    len = <span class="hljs-built_in">snprintf</span>(buf, <span class="hljs-keyword">sizeof</span>(buf), <span class="hljs-string">&quot;%d&quot;</span>, gpio);<br>    write(fd, buf, len);<br>    close(fd);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">// 设置方向</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">gpio_set_dir</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> gpio, <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> out_flag)</span><br>&#123;<br>    <span class="hljs-type">int</span> fd, len;<br>    <span class="hljs-type">char</span> buf[MAX_BUF];<br><br>    len = <span class="hljs-built_in">snprintf</span>(buf, <span class="hljs-keyword">sizeof</span>(buf), SYSFS_GPIO_DIR <span class="hljs-string">&quot;/gpio%d/direction&quot;</span>, gpio);<br><br>    fd = open(buf, O_WRONLY);<br>    <span class="hljs-keyword">if</span> (fd &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        perror(<span class="hljs-string">&quot;gpio/direction&quot;</span>);<br>        <span class="hljs-keyword">return</span> fd;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (out_flag)<br>        write(fd, <span class="hljs-string">&quot;out&quot;</span>, <span class="hljs-number">3</span>);<br>    <span class="hljs-keyword">else</span><br>        write(fd, <span class="hljs-string">&quot;in&quot;</span>, <span class="hljs-number">2</span>);<br>    close(fd);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">// 设置输出值</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">gpio_set_value</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> gpio, <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> value)</span><br>&#123;<br>    <span class="hljs-type">int</span> fd, len;<br>    <span class="hljs-type">char</span> buf[MAX_BUF];<br><br>    len = <span class="hljs-built_in">snprintf</span>(buf, <span class="hljs-keyword">sizeof</span>(buf), SYSFS_GPIO_DIR <span class="hljs-string">&quot;/gpio%d/value&quot;</span>, gpio);<br><br>    fd = open(buf, O_WRONLY);<br>    <span class="hljs-keyword">if</span> (fd &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        perror(<span class="hljs-string">&quot;gpio/set-value&quot;</span>);<br>        <span class="hljs-keyword">return</span> fd;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (value)<br>        write(fd, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">else</span><br>        write(fd, <span class="hljs-string">&quot;0&quot;</span>, <span class="hljs-number">1</span>);<br><br>    close(fd);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">// 读取输入值</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">gpio_get_value</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> gpio, <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> *value)</span><br>&#123;<br>    <span class="hljs-type">int</span> fd, len;<br>    <span class="hljs-type">char</span> buf[MAX_BUF];<br>    <span class="hljs-type">char</span> ch;<br><br>    len = <span class="hljs-built_in">snprintf</span>(buf, <span class="hljs-keyword">sizeof</span>(buf), SYSFS_GPIO_DIR <span class="hljs-string">&quot;/gpio%d/value&quot;</span>, gpio);<br><br>    fd = open(buf, O_RDONLY);<br>    <span class="hljs-keyword">if</span> (fd &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        perror(<span class="hljs-string">&quot;gpio/get-value&quot;</span>);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, buf);<br>        <span class="hljs-keyword">return</span> fd;<br>    &#125;<br>    read(fd, &amp;ch, <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">if</span> (ch != <span class="hljs-string">&#x27;0&#x27;</span>)<br>        *value = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">else</span><br>        *value = <span class="hljs-number">0</span>;<br>    close(fd);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure></li>
-</ol>
-</li>
-</ol>
-
-                
-              </div>
+<h1 id="D1-H哪吒开发板GPIO使用"><a href="#D1-H哪吒开发板GPIO使用" class="headerlink" title="D1-H哪吒开发板GPIO使用"></a>D1-H哪吒开发板GPIO使用</h1><p>基 于 开 发 板 的 Tina_Linux 操 作 系 统 , 可 以 通 过 sysfs 方 式 控 制 GPIO<br>(<code>/sys/class/gpio</code>)。基本原理如下。</p><p>查看系统中有没有<code>/sys/class/gpio</code>这个文件夹,如果没有就在编译内核的时候勾选<code> Device Drivers-&gt; GPIO Support -&gt;/sys/class/gpio/... (sysfsinterface)</code>。</p><p>通过 sysfs 方式控制 GPIO,先访问<code>/sys/class/gpio</code> 目录,向 <code>export</code> 文件写入GPIO 编号,使得该 GPIO 的操作接口从内核空间暴露到用户空间,GPIO 的操作接口包括 <code>direction</code> 和 <code>value</code> 等,<code>direction</code> 控制 GPIO 方向,而 <code>value</code> 可控制 GPIO 输出或获得 GPIO 输入。文件 IO 方式操作 GPIO,使用到了 4 个函数 <code>open</code>、<code>close</code>、<code>read</code>、<code>write</code>。</p><ol><li><code>gpio_operation</code> 通过<code>/sys/</code>文件接口操作 IO 端口 GPIO 到文件系统<br>的映射:<ul><li>控制 GPIO 的目录位于<code>/sys/class/gpio</code>。</li><li><code>/sys/class/gpio/export</code> 文件用于通知系统需要导出控制的 GPIO 引脚<br> 编号。</li><li><code>/sys/class/gpio/unexport</code>用于通知系统取消导出。</li><li><code>/sys/class/gpio/gpiochipX</code> 目录保存系统中 GPIO 寄存器的信息,包括<br> 每个寄存器控制引脚的起始编号 base,寄存器名称,引脚总数 导出一个引脚的<br> 操作。</li><li><code>/sys/class/gpio/gpioX/direction</code> 文件,定义输入输入方向,可以通<br> 过下面命令定义为输出。<code>direction</code> 接受的参数:<code>in, out, high, low。high/low</code>同时设置方向为输出,并将 <code>value</code> 设置为相应的 <code>1/0</code></li><li><code>/sys/class/gpio/gpioX/value</code> 文件是端口的数值,为 1 或 0</li></ul></li><li>在Tina-Linux系统中操作<ul><li>导出：<code> echo 65 &gt; export</code></li><li>取消导出：<code>echo 65 &gt; unexport</code></li><li>设置方向：<code>echo out &gt; direction</code></li><li>查看方向：<code>cat direction</code></li><li>设置输出：<code>/echo 1 &gt; value</code></li><li>查看输出值：<code>cat value</code></li></ul></li></ol><p>使用时需要计算 GPIO 的编号,比如需要采用 <code>PC1</code>,那么 C 组是第三组那<br>么可以利用公式<br>$$num &#x3D; (n-1) * 32 + m$$<br>其中 <code>num</code> 是 GPIO 的编号,<code>n</code> 是第几组 gpio,<code>m</code> 是当前的 gpio 的序号。经过计算 PC1 的 GPIO 编号为 65。</p><p>所以当执行<code>echo 65 &gt; /sys/class/gpio/export</code>会在<code>/sys/class/gpio/</code>文件夹中生成 <code>gpio65</code> 这个目录,里面有些文件可以设置 GPIO 的值。</p><ol start="3"><li>在 C 程序中使用<ol><li>在<code>/sys/class/gpio/</code>生成 gpio 相关的文件夹，使用<code>gpio_export()</code></li><li>设置 gpio 输入输出方向，使用<code>gpio_set_dir()</code></li><li>读写 gpio 的值，使用<code>gpio_set_value()</code>或<code>gpio_get_value()</code><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">define</span> SYSFS_GPIO_DIR <span class="hljs-string">&quot;/sys/class/gpio&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_BUF 64</span><br><span class="hljs-comment">// 导出</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">gpio_export</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> gpio)</span><br>&#123;<br>    <span class="hljs-type">int</span> fd, len;<br>    <span class="hljs-type">char</span> buf[MAX_BUF];<br><br>    fd = open(SYSFS_GPIO_DIR <span class="hljs-string">&quot;/export&quot;</span>, O_WRONLY);<br>    <span class="hljs-keyword">if</span> (fd &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        perror(<span class="hljs-string">&quot;gpio/export&quot;</span>);<br>        <span class="hljs-keyword">return</span> fd;<br>    &#125;<br><br>    len = <span class="hljs-built_in">snprintf</span>(buf, <span class="hljs-keyword">sizeof</span>(buf), <span class="hljs-string">&quot;%d&quot;</span>, gpio);<br>    write(fd, buf, len);<br>    close(fd);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">// 取消导出</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">gpio_unexport</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> gpio)</span><br>&#123;<br>    <span class="hljs-type">int</span> fd, len;<br>    <span class="hljs-type">char</span> buf[MAX_BUF];<br><br>    fd = open(SYSFS_GPIO_DIR <span class="hljs-string">&quot;/unexport&quot;</span>, O_WRONLY);<br>    <span class="hljs-keyword">if</span> (fd &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        perror(<span class="hljs-string">&quot;gpio/export&quot;</span>);<br>        <span class="hljs-keyword">return</span> fd;<br>    &#125;<br><br>    len = <span class="hljs-built_in">snprintf</span>(buf, <span class="hljs-keyword">sizeof</span>(buf), <span class="hljs-string">&quot;%d&quot;</span>, gpio);<br>    write(fd, buf, len);<br>    close(fd);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">// 设置方向</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">gpio_set_dir</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> gpio, <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> out_flag)</span><br>&#123;<br>    <span class="hljs-type">int</span> fd, len;<br>    <span class="hljs-type">char</span> buf[MAX_BUF];<br><br>    len = <span class="hljs-built_in">snprintf</span>(buf, <span class="hljs-keyword">sizeof</span>(buf), SYSFS_GPIO_DIR <span class="hljs-string">&quot;/gpio%d/direction&quot;</span>, gpio);<br><br>    fd = open(buf, O_WRONLY);<br>    <span class="hljs-keyword">if</span> (fd &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        perror(<span class="hljs-string">&quot;gpio/direction&quot;</span>);<br>        <span class="hljs-keyword">return</span> fd;<br>    &#125;<br>    <span class="hljs-keyword">if</span> (out_flag)<br>        write(fd, <span class="hljs-string">&quot;out&quot;</span>, <span class="hljs-number">3</span>);<br>    <span class="hljs-keyword">else</span><br>        write(fd, <span class="hljs-string">&quot;in&quot;</span>, <span class="hljs-number">2</span>);<br>    close(fd);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">// 设置输出值</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">gpio_set_value</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> gpio, <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> value)</span><br>&#123;<br>    <span class="hljs-type">int</span> fd, len;<br>    <span class="hljs-type">char</span> buf[MAX_BUF];<br><br>    len = <span class="hljs-built_in">snprintf</span>(buf, <span class="hljs-keyword">sizeof</span>(buf), SYSFS_GPIO_DIR <span class="hljs-string">&quot;/gpio%d/value&quot;</span>, gpio);<br><br>    fd = open(buf, O_WRONLY);<br>    <span class="hljs-keyword">if</span> (fd &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        perror(<span class="hljs-string">&quot;gpio/set-value&quot;</span>);<br>        <span class="hljs-keyword">return</span> fd;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (value)<br>        write(fd, <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">else</span><br>        write(fd, <span class="hljs-string">&quot;0&quot;</span>, <span class="hljs-number">1</span>);<br><br>    close(fd);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">// 读取输入值</span><br><span class="hljs-type">int</span> <span class="hljs-title function_">gpio_get_value</span><span class="hljs-params">(<span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> gpio, <span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> *value)</span><br>&#123;<br>    <span class="hljs-type">int</span> fd, len;<br>    <span class="hljs-type">char</span> buf[MAX_BUF];<br>    <span class="hljs-type">char</span> ch;<br><br>    len = <span class="hljs-built_in">snprintf</span>(buf, <span class="hljs-keyword">sizeof</span>(buf), SYSFS_GPIO_DIR <span class="hljs-string">&quot;/gpio%d/value&quot;</span>, gpio);<br><br>    fd = open(buf, O_RDONLY);<br>    <span class="hljs-keyword">if</span> (fd &lt; <span class="hljs-number">0</span>)<br>    &#123;<br>        perror(<span class="hljs-string">&quot;gpio/get-value&quot;</span>);<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%s\n&quot;</span>, buf);<br>        <span class="hljs-keyword">return</span> fd;<br>    &#125;<br>    read(fd, &amp;ch, <span class="hljs-number">1</span>);<br>    <span class="hljs-keyword">if</span> (ch != <span class="hljs-string">&#x27;0&#x27;</span>)<br>        *value = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">else</span><br>        *value = <span class="hljs-number">0</span>;<br>    close(fd);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure></li></ol></li></ol>
+</div>
             
             <hr/>
             <div>
@@ -368,100 +332,20 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>D1-H哪吒开发板GPIO使用</div>
-      <div>http://example.com/2024/03/05/D1-H哪吒开发板GPIO使用/</div>
+      <div>http://example.com/2024/03/05/D1-H%E5%93%AA%E5%90%92%E5%BC%80%E5%8F%91%E6%9D%BFGPIO%E4%BD%BF%E7%94%A8/</div>
     </div>
     <div class="license-meta">
-      
-        <div class="license-meta-item">
-          <div>作者</div>
-          <div>lidonghang-02</div>
-        </div>
-      
-      
-        <div class="license-meta-item license-meta-date">
-          <div>发布于</div>
-          <div>2024年3月5日</div>
-        </div>
-      
-      
-      
-        <div class="license-meta-item">
-          <div>许可协议</div>
-          <div>
-            
-              
-              
-                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
-                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
-                    <i class="iconfont icon-by"></i>
-                  </span>
-                </a>
-              
-            
-          </div>
-        </div>
-      
-    </div>
-    <div class="license-icon iconfont"></div>
-  </div>
-
-
-
-              
-                <div class="post-prevnext my-3">
-                  <article class="post-prev col-6">
-                    
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2024/03/05/%E5%9F%BA%E4%BA%8ESTM32%E7%9A%84%E6%B8%A9%E5%AE%A4%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F/" title="基于STM32的温室控制系统">
-                        <span class="hidden-mobile">基于STM32的温室控制系统</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
-            </div>
-
-            
-  
-  
-    <article id="comments" lazyload>
-      
-  <div id="valine"></div>
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#valine', function() {
-      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
-        var options = Object.assign(
-          {"appId":"0r6Gu1FDMfgWqlGYZ7ajgr5Z-MdYXbMMI","appKey":"lDtuGLuwzxbRgeIpWrrzqVeV","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
-          {
-            el: "#valine",
-            path: window.location.pathname
-          }
-        )
-        new Valine(options);
-        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
-          var imgSelector = '#valine .vcontent img:not(.vemoji)';
-          Fluid.plugins.imageCaption(imgSelector);
-          Fluid.plugins.fancyBox(imgSelector);
-        })
-      });
-    });
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
-
-
-    </article>
-  
-
-
-          </article>
-        </div>
+      <div class="license-meta-item">
+        <div>作者</div><div>lidonghang-02</div>
       </div>
+      <div class="license-meta-item license-meta-date">
+        <div>发布日期</div><div>2024-03-05</div>
+      </div>
+      <div class="license-meta-item">
+        <div>许可协议</div><div><a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></div>
+      </div>
+    </div>
+  </div>
     </div>
 
     <div class="side-col d-none d-lg-block col-lg-2">
@@ -534,7 +418,7 @@
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+          
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
@@ -564,14 +448,14 @@
       <span id="leancloud-site-pv-container" style="display: none">
         总访问量
         <span id="leancloud-site-pv"></span>
-        次
+        ?
       </span>
     
     
       <span id="leancloud-site-uv-container" style="display: none">
         总访客数
         <span id="leancloud-site-uv"></span>
-        人
+        ?
       </span>
     
     

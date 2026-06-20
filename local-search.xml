@@ -143,4 +143,180 @@
   
   
   
+
+  <entry>
+    <title>[Linux内核驱动]模块的加载和卸载</title>
+    <link href="/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%92%8C%E5%8D%B8%E8%BD%BD/"/>
+    <url>/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%92%8C%E5%8D%B8%E8%BD%BD/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]模块的加载和卸载，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]模块的加载和卸载</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]Makefile</title>
+    <link href="/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5DMakefile/"/>
+    <url>/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5DMakefile/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]Makefile，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]Makefile</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]模块参数</title>
+    <link href="/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E6%A8%A1%E5%9D%97%E5%8F%82%E6%95%B0/"/>
+    <url>/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E6%A8%A1%E5%9D%97%E5%8F%82%E6%95%B0/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]模块参数，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]模块参数</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]创建字符设备</title>
+    <link href="/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%88%9B%E5%BB%BA%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87/"/>
+    <url>/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%88%9B%E5%BB%BA%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]创建字符设备，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]创建字符设备</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]ioctl</title>
+    <link href="/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5Dioctl/"/>
+    <url>/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5Dioctl/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]ioctl，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]ioctl</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]内存动态申请</title>
+    <link href="/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%86%85%E5%AD%98%E5%8A%A8%E6%80%81%E7%94%B3%E8%AF%B7/"/>
+    <url>/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%86%85%E5%AD%98%E5%8A%A8%E6%80%81%E7%94%B3%E8%AF%B7/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]内存动态申请，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]内存动态申请</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]信号量</title>
+    <link href="/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E4%BF%A1%E5%8F%B7%E9%87%8F/"/>
+    <url>/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E4%BF%A1%E5%8F%B7%E9%87%8F/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]信号量，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]信号量</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]自旋锁</title>
+    <link href="/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E8%87%AA%E6%97%8B%E9%94%81/"/>
+    <url>/2024/06/21/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E8%87%AA%E6%97%8B%E9%94%81/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]自旋锁，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]自旋锁</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]等待队列</title>
+    <link href="/2024/06/22/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E7%AD%89%E5%BE%85%E9%98%9F%E5%88%97/"/>
+    <url>/2024/06/22/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E7%AD%89%E5%BE%85%E9%98%9F%E5%88%97/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]等待队列，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]等待队列</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]应用</title>
+    <link href="/2024/06/22/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%BA%94%E7%94%A8/"/>
+    <url>/2024/06/22/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%BA%94%E7%94%A8/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]应用，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]应用</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]轮询操作</title>
+    <link href="/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E8%BD%AE%E8%AF%A2%E6%93%8D%E4%BD%9C/"/>
+    <url>/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E8%BD%AE%E8%AF%A2%E6%93%8D%E4%BD%9C/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]轮询操作，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]轮询操作</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]数据类型</title>
+    <link href="/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
+    <url>/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]数据类型，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]数据类型</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]异步通知</title>
+    <link href="/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%BC%82%E6%AD%A5%E9%80%9A%E7%9F%A5/"/>
+    <url>/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%BC%82%E6%AD%A5%E9%80%9A%E7%9F%A5/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]异步通知，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]异步通知</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]延时</title>
+    <link href="/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%BB%B6%E6%97%B6/"/>
+    <url>/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%BB%B6%E6%97%B6/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]延时，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]延时</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]应用</title>
+    <link href="/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%BA%94%E7%94%A8/"/>
+    <url>/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%BA%94%E7%94%A8/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]应用，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]应用</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]工作队列</title>
+    <link href="/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%B7%A5%E4%BD%9C%E9%98%9F%E5%88%97/"/>
+    <url>/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%B7%A5%E4%BD%9C%E9%98%9F%E5%88%97/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]工作队列，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]工作队列</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]定时器应用</title>
+    <link href="/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%AE%9A%E6%97%B6%E5%99%A8%E5%BA%94%E7%94%A8/"/>
+    <url>/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%AE%9A%E6%97%B6%E5%99%A8%E5%BA%94%E7%94%A8/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]定时器应用，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]定时器应用</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]定时器</title>
+    <link href="/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%AE%9A%E6%97%B6%E5%99%A8/"/>
+    <url>/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%AE%9A%E6%97%B6%E5%99%A8/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]定时器，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]定时器</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]中断</title>
+    <link href="/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E4%B8%AD%E6%96%AD/"/>
+    <url>/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E4%B8%AD%E6%96%AD/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]中断，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]中断</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]tasklet</title>
+    <link href="/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5Dtasklet/"/>
+    <url>/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5Dtasklet/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]tasklet，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]tasklet</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]proc</title>
+    <link href="/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5Dproc/"/>
+    <url>/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5Dproc/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]proc，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]proc</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
+
+  <entry>
+    <title>[Linux内核驱动]platform</title>
+    <link href="/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5Dplatform/"/>
+    <url>/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5Dplatform/</url>
+    <content type="html"><![CDATA[<p>Linux 内核驱动开发系列笔记：[Linux内核驱动]platform，涵盖字符设备、同步机制、等待队列、轮询、中断、定时器、工作队列、platform、proc 等驱动开发实践。</p><p>关键词：Linux 内核驱动 驱动开发 字符设备 C语言 内核模块 [Linux内核驱动]platform</p>]]></content>
+    <categories><category>驱动开发</category></categories>
+  </entry>
 </search>
