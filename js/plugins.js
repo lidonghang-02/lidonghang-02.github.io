@@ -137,18 +137,19 @@ Fluid.plugins = {
         }
         lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
       }
-      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+      var $widgetHost = $pre.closest('figure.highlight, .code-wrapper');
+      if ($widgetHost.length === 0) {
+        $widgetHost = $pre;
+      }
+      $widgetHost.addClass('site-code-host');
+      $widgetHost.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
         getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
 
       if (enableCopy) {
         var clipboard = new ClipboardJS('.copy-btn', {
           target: function(trigger) {
-            var nodes = trigger.parentNode.childNodes;
-            for (var i = 0; i < nodes.length; i++) {
-              if (nodes[i].tagName === 'CODE') {
-                return nodes[i];
-              }
-            }
+            var host = trigger.closest('figure.highlight, .code-wrapper, pre');
+            return host && host.querySelector('td.code code, pre code, code');
           }
         });
         clipboard.on('success', function(e) {
