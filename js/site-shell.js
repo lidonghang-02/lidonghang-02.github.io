@@ -62,7 +62,6 @@
     run("applyColorToggle", applyColorToggle);
     run("applyNavToggle", function () { applyNavToggle(body); });
     run("applyMobileNavDrawer", applyMobileNavDrawer);
-    run("limitHomeExcerpts", function () { limitHomeExcerpts(body); });
     run("applyHomePagination", function () { applyHomePagination(body); });
     run("repairPostStructure", function () { repairPostStructure(body); });
     run("applyPostTitle", function () { applyPostTitle(body); });
@@ -84,17 +83,6 @@
       label.parentNode && label.parentNode.removeChild(label);
     });
   }
-
-  function limitHomeExcerpts(body) {
-    if (!body.classList.contains("site-home")) {
-      return;
-    }
-    document.querySelectorAll(".index-excerpt > div").forEach(function (excerpt) {
-      var text = excerpt.textContent.replace(/\s+/g, " ").trim();
-      excerpt.textContent = Array.from(text).slice(0, 200).join("");
-    });
-  }
-
 
   function applyUnifiedChrome(body) {
     var labels = [

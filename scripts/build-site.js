@@ -36,12 +36,25 @@ function parseMarkdown(source, fallbackTitle) {
   const body = match ? source.slice(match[0].length) : source;
   const field = (name) => {
     const found = frontMatter.match(new RegExp('^' + name + ':\\s*(.+)$', 'm'));
-    return found ? found[1].trim() : '';
+    if (!found) return '';
+    const value = found[1].trim();
+    if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      return value.slice(1, -1);
+    }
+    return value;
+  };
+  const list = (name) => {
+    const found = frontMatter.match(new RegExp('^' + name + ':\\s*\\r?\\n((?:[ \\t]+-.*(?:\\r?\\n|$))*)', 'm'));
+    if (!found) return [];
+    return found[1].split(/\r?\n/).map((line) => line.replace(/^\s*-\s*/, '').trim()).filter(Boolean);
   };
   return {
-    title: field('title') || fallbackTitle,
+    title: field('title'),
+    fallbackTitle,
     date: field('date'),
-    category: field('categories') || '未分类',
+    category: field('categories'),
+    tags: list('tags'),
+    source: field('source'),
     description: field('description'),
     body
   };
@@ -86,7 +99,7 @@ function renderArticle(template, markdownPath) {
   const source = fs.readFileSync(markdownPath, 'utf8');
   const article = parseMarkdown(source, path.basename(directory));
   const rendered = marked.parse(article.body, { gfm: true, breaks: false });
-  let html = replaceMeta(template, article, relativeDirectory);
+  let html = replaceMeta(template, { ...article, title: article.title || article.fallbackTitle }, relativeDirectory);
   const marker = /<!-- ARTICLE_CONTENT_START -->[\s\S]*?<!-- ARTICLE_CONTENT_END -->/;
   if (!marker.test(html)) throw new Error('reader.html is missing article content markers');
   html = html.replace(marker, `<!-- ARTICLE_CONTENT_START -->\n${rendered}\n<!-- ARTICLE_CONTENT_END -->`);
@@ -96,9 +109,11 @@ function renderArticle(template, markdownPath) {
   return {
     relativeDirectory,
     title: article.title,
-    date: (article.date || relativeDirectory.split('/').slice(0, 3).join('-')).slice(0, 10),
+    date: article.date,
     category: article.category,
-    excerpt: article.description || textStats(article.body).text.slice(0, 200),
+    tags: article.tags,
+    source: article.source,
+    excerpt: article.description,
     path: '/' + relativeDirectory + '/',
     target
   };
@@ -109,18 +124,21 @@ function renderHomeCards(articles) {
   let home = fs.readFileSync(homePath, 'utf8');
   const cards = articles
     .slice()
-    .sort((a, b) => b.date.localeCompare(a.date) || b.path.localeCompare(a.path))
+    .sort((a, b) => (b.date || '').localeCompare(a.date || '') || b.path.localeCompare(a.path))
     .map((article) => {
       const href = escapeHtml(encodeURI(article.path));
-      const categoryHref = '/categories/' + encodeURIComponent(article.category) + '/';
+      const title = article.title ? `<h2 class="index-header"><a href="${href}" target="_self">${escapeHtml(article.title)}</a></h2>` : '';
+      const excerpt = article.excerpt ? `<a class="index-excerpt index-excerpt__noimg" href="${href}" target="_self"><div>${escapeHtml(article.excerpt)}</div></a>` : '';
+      const metadata = [];
+      if (article.date) metadata.push(`<div class="post-meta mr-3"><i class="iconfont icon-date"></i><time datetime="${escapeHtml(article.date)}" pubdate>${escapeHtml(article.date)}</time></div>`);
+      if (article.category) metadata.push(`<div class="post-meta mr-3"><i class="iconfont icon-category"></i><a href="/categories/${encodeURIComponent(article.category)}/">${escapeHtml(article.category)}</a></div>`);
+      if (article.tags.length) metadata.push(`<div class="post-meta mr-3"><i class="iconfont icon-tags"></i>${article.tags.map((tag) => `<a class="site-post-tag" href="/tags/${encodeURIComponent(tag)}/">${escapeHtml(tag)}</a>`).join('<span aria-hidden="true">, </span>')}</div>`);
+      if (article.source) metadata.push(`<div class="post-meta mr-3"><i class="iconfont icon-link"></i><a href="${escapeHtml(article.source)}" rel="noopener noreferrer">来源</a></div>`);
       return `  <div class="row mx-auto index-card csdn-exported-card">
     <article class="col-12 col-md-12 mx-auto index-info">
-      <h2 class="index-header"><a href="${href}" target="_self">${escapeHtml(article.title)}</a></h2>
-      <a class="index-excerpt index-excerpt__noimg" href="${href}" target="_self"><div>${escapeHtml(article.excerpt)}</div></a>
-      <div class="index-btm post-metas">
-        <div class="post-meta mr-3"><i class="iconfont icon-date"></i><time datetime="${article.date}" pubdate>${article.date}</time></div>
-        <div class="post-meta mr-3"><i class="iconfont icon-category"></i><a href="${categoryHref}">${escapeHtml(article.category)}</a></div>
-      </div>
+      ${title}
+      ${excerpt}
+      ${metadata.length ? `<div class="index-btm post-metas">${metadata.join('')}</div>` : ''}
     </article>
   </div>`;
     })
@@ -133,8 +151,17 @@ function renderHomeCards(articles) {
 
 function injectRegistry(articles) {
   const registry = articles
-    .map(({ title, path: articlePath, date, category, excerpt }) => ({ title, path: articlePath, date, category, excerpt }))
-    .sort((a, b) => a.date.localeCompare(b.date) || a.path.localeCompare(b.path));
+    .map(({ title, path: articlePath, date, category, tags, source, excerpt }) => {
+      const item = { path: articlePath };
+      if (title) item.title = title;
+      if (date) item.date = date;
+      if (category) item.category = category;
+      if (tags.length) item.tags = tags;
+      if (source) item.source = source;
+      if (excerpt) item.excerpt = excerpt;
+      return item;
+    })
+    .sort((a, b) => (a.date || '').localeCompare(b.date || '') || a.path.localeCompare(b.path));
   fs.writeFileSync(path.join(output, 'js', 'post-registry.generated.js'), `window.BLOG_POSTS = ${JSON.stringify(registry, null, 2)};\n`, 'utf8');
   const visit = (directory) => {
     for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
