@@ -1,5 +1,7 @@
 ---
-title: 在ubuntu上安装/卸载libreoffice
+title: "在ubuntu上安装/卸载libreoffice"
+date: 2024-03-05 00:00:00
+categories: 未分类
 ---
 
 # 在ubuntu上安装/卸载libreoffice

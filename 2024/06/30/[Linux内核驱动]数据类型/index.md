@@ -1,5 +1,5 @@
 ---
-title: [Linux内核驱动]数据类型
+title: "[Linux内核驱动]数据类型"
 date: 2024-06-30 19:24:05
 categories: 驱动开发
 tags:

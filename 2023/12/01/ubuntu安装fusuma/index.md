@@ -1,5 +1,7 @@
 ---
-title: ubuntu安装fusuma
+title: "ubuntu安装fusuma"
+date: 2023-12-01 00:00:00
+categories: 未分类
 ---
 
 # 安装fusuma

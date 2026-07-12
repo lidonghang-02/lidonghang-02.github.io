@@ -1,5 +1,7 @@
 ---
-title: 在docker上搭建D1-H哪吒开发板环境
+title: "在docker上搭建D1-H哪吒开发板环境"
+date: 2023-12-01 00:00:00
+categories: 未分类
 ---
 
 # 在docker上搭建D1-H哪吒开发板环境

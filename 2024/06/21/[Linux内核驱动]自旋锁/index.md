@@ -1,5 +1,5 @@
 ---
-title: [Linux内核驱动]自旋锁
+title: "[Linux内核驱动]自旋锁"
 date: 2024-06-21 19:20:32
 categories: 驱动开发
 tags:

@@ -1,5 +1,5 @@
 ---
-title: [Linux内核驱动]platform
+title: "[Linux内核驱动]platform"
 date: 2024-06-30 19:25:36
 categories: 驱动开发
 tags:

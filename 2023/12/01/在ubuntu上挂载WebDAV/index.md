@@ -1,5 +1,7 @@
 ---
-title: 在ubuntu上挂载WebDAV
+title: "在ubuntu上挂载WebDAV"
+date: 2023-12-01 00:00:00
+categories: 未分类
 ---
 
 # WebDAV挂载

@@ -1075,6 +1075,16 @@
       }
     };
     var normalize = function () {
+      document.querySelectorAll(".markdown-body .highlighter-rouge").forEach(function (wrapper) {
+        var languageClass = Array.prototype.slice.call(wrapper.classList).find(function (name) {
+          return name.indexOf("language-") === 0;
+        });
+        var code = wrapper.querySelector("pre code");
+        if (languageClass && code) {
+          code.classList.add(languageClass);
+        }
+      });
+
       document.querySelectorAll(".markdown-body figure.highlight").forEach(function (figure) {
         figure.classList.add("site-code-block");
         var language = Array.prototype.slice.call(figure.classList).filter(function (name) {

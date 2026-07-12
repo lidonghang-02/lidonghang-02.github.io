@@ -1,5 +1,5 @@
 ---
-title: [Linux内核驱动]内存动态申请
+title: "[Linux内核驱动]内存动态申请"
 date: 2024-06-21 19:13:30
 categories: 驱动开发
 tags:

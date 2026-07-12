@@ -1,5 +1,5 @@
 ---
-title: [Linux内核驱动]异步通知
+title: "[Linux内核驱动]异步通知"
 date: 2024-06-30 19:16:55
 categories: 驱动开发
 tags:

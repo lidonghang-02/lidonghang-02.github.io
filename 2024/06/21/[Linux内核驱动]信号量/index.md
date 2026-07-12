@@ -1,5 +1,5 @@
 ---
-title: [Linux内核驱动]信号量
+title: "[Linux内核驱动]信号量"
 date: 2024-06-21 19:28:11
 categories: 驱动开发
 tags:

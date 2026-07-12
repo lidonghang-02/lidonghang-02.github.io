@@ -1,5 +1,5 @@
 ---
-title: [Linux内核驱动]创建字符设备
+title: "[Linux内核驱动]创建字符设备"
 date: 2024-06-21 19:14:58
 categories: 驱动开发
 tags:

@@ -1,5 +1,5 @@
 ---
-title: [Linux内核驱动]等待队列
+title: "[Linux内核驱动]等待队列"
 date: 2024-06-22 12:33:23
 categories: 驱动开发
 tags:
