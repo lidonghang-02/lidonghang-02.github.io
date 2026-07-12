@@ -865,8 +865,12 @@
     if (!text) {
       return;
     }
+    var articlePath = window.location.pathname.replace(/index\.html$/, "");
 
     var syncTitle = function () {
+      if (window.location.pathname.replace(/index\.html$/, "") !== articlePath) {
+        return;
+      }
       subtitle.setAttribute("data-typed-text", text);
       subtitle.textContent = text;
       document.title = text + " - LDH blog";
