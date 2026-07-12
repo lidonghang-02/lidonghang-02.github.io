@@ -249,9 +249,9 @@
               <div class="col-12 col-md-10 m-auto">
 
 <!-- POST_LIST_START -->
-{% assign blog_posts = site.pages | where_exp: "post", "post.path contains '2023/' or post.path contains '2024/'" | where_exp: "post", "post.ext == '.md'" | sort: "date" | reverse %}
-{% if blog_posts.size > 0 %}
+{% assign blog_posts = site.pages | sort: "path" | reverse %}
 {% for post in blog_posts %}
+{% if post.path contains 'index.md' and post.path contains '2023/' or post.path contains 'index.md' and post.path contains '2024/' %}
   <div class="row mx-auto index-card csdn-exported-card">
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header"><a href="{{ post.url | relative_url }}" target="_self">{{ post.title | escape }}</a></h2>
@@ -262,8 +262,9 @@
       </div>
     </article>
   </div>
+{% endif %}
 {% endfor %}
-{% else %}
+{% if false %}
   <div class="row mx-auto index-card csdn-exported-card">
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
