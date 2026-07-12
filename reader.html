@@ -16,11 +16,10 @@
   <meta name="author" content="lidonghang-02">
   <meta name="keywords" content="">
   
-    <meta name="description" content="更多详细内容可以查看我的设计一个FIFO的globalmem。">
-<meta property="og:title" content="[Linux内核驱动]应用">
-<meta property="og:url" content="http://example.com/2024/06/30/%5BLinux%E5%86%85%E6%A0%B8%E9%A9%B1%E5%8A%A8%5D%E5%BA%94%E7%94%A8/index.html">
+    <meta name="description" content="使用定时器构造下面的数据表。">
+<meta property="og:title" content="[Linux内核驱动]定时器应用">
 <meta property="og:site_name" content="LDH blog">
-<meta property="og:description" content="更多详细内容可以查看我的设计一个FIFO的globalmem。">
+<meta property="og:description" content="使用定时器构造下面的数据表。">
 <meta property="article:published_time" content="2024-06-30T00:00:00.000Z">
 <meta property="article:modified_time" content="2024-06-30T00:00:00.000Z">
 <meta property="article:author" content="lidonghang-02">
@@ -29,7 +28,7 @@
   
   
   
-  <title>[Linux内核驱动]应用 - LDH blog</title>
+  <title>[Linux内核驱动]定时器应用 - LDH blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -76,6 +75,8 @@
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
+  <script src="/js/vendor/marked.umd.js"></script>
+  <script defer src="/js/md-reader.js"></script>
   <script defer src="/js/site-shell.js?v=20260711-post-essentials-18" ></script>
   
 
@@ -225,7 +226,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="[Linux内核驱动]应用">[Linux内核驱动]应用</span>
+            <span id="subtitle" data-typed-text="[Linux内核驱动]定时器应用">[Linux内核驱动]定时器应用</span>
           
         </div>
 
@@ -236,7 +237,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-06-30 18:38:26" pubdate>2024-06-30</time>
+        <time datetime="2024-06-30 19:20:00" pubdate>2024-06-30</time>
       </span>
     
   </div>
@@ -300,301 +301,255 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">[Linux内核驱动]应用</h1>
+            <h1 id="seo-header">[Linux内核驱动]定时器应用</h1>
             
             
               <div class="markdown-body">
-<h2 id="应用"><a href="#%E5%BA%94%E7%94%A8" class="headerlink" title="应用"></a>应用</h2>
-<p>更多详细内容可以查看我的github</p>
-<p>设计一个FIFO的globalmem</p>
+<h2 id="定时器的应用"><a href="#%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E5%BA%94%E7%94%A8" class="headerlink" title="定时器的应用"></a>定时器的应用</h2>
+<p>使用定时器构造下面的数据表</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">time delta inirq pid cpu command
+1321555 0 0 10659 3 cat
+1321805 250 1 0 3 swapper/3
+1322055 250 1 0 3 swapper/3
+1322306 251 1 0 3 swapper/3
+1322560 254 1 0 3 swapper/3</code></pre></td></tr></table></figure>
+<h3 id="部分用到的函数"><a href="#%E9%83%A8%E5%88%86%E7%94%A8%E5%88%B0%E7%9A%84%E5%87%BD%E6%95%B0" class="headerlink" title="部分用到的函数"></a>部分用到的函数</h3>
+<h4 id="setup_timer()"><a href="#setup_timer%28%29" class="headerlink" title="setup_timer()"></a>setup_timer()</h4>
+<p>setup_timer 是 Linux 内核中用于初始化一个 struct timer_list 结构体的函数。这个结构体用于表示一个内核定时器，当定时器到期时，会调用一个预先设定的函数（称为定时器处理函数）。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">void setup_timer(struct timer_list *timer, void (*function)(struct timer_list *), unsigned int flags);</code></pre></td></tr></table></figure>
+<p>参数说明：</p>
+<p>- struct timer_list *timer：指向要初始化的 timer_list 结构体的指针。 - void (*function)(struct timer_list *)：当定时器到期时调用的处理函数。这个函数应该接受一个指向 timer_list 结构体的指针作为参数。 - unsigned int flags：标志位，用于控制定时器的行为。通常设置为 0，但也可以包含一些特殊的标志位，如 TIMER_DEFERRABLE（表示该定时器可以延迟执行）。</p>
+<p>在初始化定时器之后，你可以使用 mod_timer 或 add_timer 函数将其添加到内核的定时器队列中，以便在指定的时间后触发。</p>
+<h4 id="in_interrupt()"><a href="#in_interrupt%28%29" class="headerlink" title="in_interrupt()"></a>in_interrupt()</h4>
+<p>in_interrupt() 是一个宏，它用于检查当前是否处于中断上下文中。</p>
+<h4 id="current"><a href="#current" class="headerlink" title="current"></a>current</h4>
+<p>current 是一个指向当前正在运行的进程描述符（通常是task_struct类型）的指针。</p>
+<p>- pid 是该进程描述符中的一个成员，表示进程的进程ID（PID）。 - comm 是task_struct结构中的一个成员，它表示进程的命令名。</p>
+<h4 id="smp_processor_id()"><a href="#smp_processor_id%28%29" class="headerlink" title="smp_processor_id()"></a>smp_processor_id()</h4>
+<p>smp_processor_id() 是一个宏，用于在多处理器系统（SMP）上获取当前CPU的ID。在多处理器系统中，每个CPU都有一个唯一的ID，这个ID可以通过这个宏来获取。</p>
 <h3 id="代码"><a href="#%E4%BB%A3%E7%A0%81" class="headerlink" title="代码"></a>代码</h3>
-<h4 id="globalfifo.c"><a href="#globalfifo.c" class="headerlink" title="globalfifo.c"></a>globalfifo.c</h4>
 <figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">/*
-* @Date: 2024-05-12 10:19:14
+* @Date: 2024-05-17 19:16:18
 * @author: lidonghang-02 2426971102@qq.com
-* @LastEditTime: 2024-05-26 20:01:32
+* @LastEditTime: 2024-05-29 17:08:27
 */
-#include &lt;linux/init.h&gt;
 #include &lt;linux/module.h&gt;
-#include &lt;linux/kernel.h&gt;
 #include &lt;linux/fs.h&gt;
 #include &lt;linux/cdev.h&gt;
 #include &lt;linux/uaccess.h&gt;
 #include &lt;linux/slab.h&gt;
 #include &lt;linux/device.h&gt;
-#include &lt;linux/types.h&gt;
 #include &lt;linux/sched.h&gt;
 
-#include &quot;globalfifo.h&quot;
+#include &lt;linux/timer.h&gt;
 
-#define GLOBALFIFO_SIZE 0x10
-#define GLOBALFIFO_MAJOR 0
-#define GLOBALFIFO_MINOR 0
-#define GLOBALFIFO_NR_DEVS 1
+#define TIMER_MAJOR 0
+#define TIMER_MINOR 0
+#define TIMER_NR_DEVS 1
 
-static int globalfifo_major = GLOBALFIFO_MAJOR;
-static int globalfifo_minor = GLOBALFIFO_MINOR;
-static int globalfifo_nr_devs = GLOBALFIFO_NR_DEVS;
+static int timer_major = TIMER_MAJOR;
+static int timer_minor = TIMER_MINOR;
+static int timer_nr_devs = TIMER_NR_DEVS;
 
-static struct class *globalfifo_cls;
-struct globalfifo_dev
+static struct class *class = NULL;
+struct timer_dev
 {
     struct cdev cdev;
-    struct device *class_dev;
-    unsigned int len;
-    unsigned char mem[GLOBALFIFO_SIZE];
-
-    struct mutex mutex;
-    wait_queue_head_t r_wq;
-    wait_queue_head_t w_wq;
+    struct device *cls_dev;
+    char *buf;
+    int delay;
+    int loops;
+    unsigned long pre_jiffies;
+    wait_queue_head_t wq;
+    struct timer_list timer;
 };
 
-static struct globalfifo_dev *globalfifo_devp;
+static struct timer_dev *timer_devp;
 
-static int globalfifo_open_func(struct inode *inode, struct file *filp)
+// 定时器回调函数
+void timer_handler(unsigned long data)
 {
-    struct globalfifo_dev *dev = container_of(inode-&gt;i_cdev, struct globalfifo_dev, cdev);
+    struct timer_dev *dev = (struct timer_dev *)data;
+    dev-&gt;buf += sprintf(dev-&gt;buf,
+    &quot;%9li %3li %i %6i %i %s\n&quot;,
+    jiffies, jiffies - dev-&gt;pre_jiffies,
+    in_interrupt() ? 1 : 0, current-&gt;pid,
+    smp_processor_id(), current-&gt;comm);
+
+    dev-&gt;loops--;
+    if (dev-&gt;loops &gt; 0)
+    {
+        mod_timer(&amp;dev-&gt;timer, jiffies + dev-&gt;delay);
+        dev-&gt;pre_jiffies = jiffies;
+    }
+else
+{
+    del_timer(&amp;dev-&gt;timer);
+    wake_up_interruptible(&amp;dev-&gt;wq);
+}
+}
+
+static int timer_open_func(struct inode *inode, struct file *filp)
+{
+    struct timer_dev *dev = container_of(inode-&gt;i_cdev, struct timer_dev, cdev);
     filp-&gt;private_data = dev;
-    printk(KERN_INFO &quot;globalfifo_open\n&quot;);
+    printk(KERN_INFO &quot;timer_open\n&quot;);
     return 0;
 }
 
-static int globalfifo_release_func(struct inode *inode, struct file *filp)
+static int timer_release_func(struct inode *inode, struct file *filp)
 {
-    printk(KERN_INFO &quot;globalfifo_release\n&quot;);
+    printk(KERN_INFO &quot;timer_release\n&quot;);
     return 0;
 }
 
-static ssize_t globalfifo_read_func(struct file *filp, char __user *buf, size_t count, loff_t *f_pos)
+static ssize_t timer_read_func(struct file *filp, char __user *buf, size_t count, loff_t *f_pos)
 {
-    struct globalfifo_dev *dev = filp-&gt;private_data;
-    int ret = 0;
-    DECLARE_WAITQUEUE(wait, current);
-    mutex_lock(&amp;dev-&gt;mutex);
-    add_wait_queue(&amp;dev-&gt;r_wq, &amp;wait);
+    ssize_t ret = 0;
+    size_t cnt;
+    char *tmp_buf;
 
-    while (dev-&gt;len == 0)
-    {
-        if (filp-&gt;f_flags &amp; O_NONBLOCK)
-        {
-            ret = -EAGAIN;
-            goto out_1;
-        }
-    __set_current_state(TASK_INTERRUPTIBLE);
-    mutex_unlock(&amp;dev-&gt;mutex);
+    struct timer_dev *dev = filp-&gt;private_data;
 
-    schedule();
-    if (signal_pending(current))
+    // 确保只读一次
+    if (*f_pos &gt; 0)
+    return 0;
+
+    tmp_buf = kmalloc(400, GFP_KERNEL);
+    if (!tmp_buf)
+    return -ENOMEM;
+
+    dev-&gt;loops = 4;
+    dev-&gt;delay = HZ;
+    dev-&gt;buf = tmp_buf;
+    dev-&gt;buf += sprintf(dev-&gt;buf, &quot; time delta inirq pid cpu command\n&quot;);
+    dev-&gt;buf += sprintf(dev-&gt;buf,
+    &quot;%9li %3li %i %6i %i %s\n&quot;,
+    jiffies, 0L, in_interrupt() ? 1 : 0,
+    current-&gt;pid, smp_processor_id(), current-&gt;comm);
+
+    // setup_timer在新版本的内核中已经被替换为timer_setup
+    setup_timer(&amp;dev-&gt;timer, timer_handler, (unsigned long)dev);
+    mod_timer(&amp;dev-&gt;timer, jiffies + dev-&gt;delay);
+
+    // 也可以使用下面方法添加定时器
+    // init_timer(&amp;dev-&gt;timer);
+    // dev-&gt;timer.function = timer_handler;
+    // dev-&gt;timer.data = (unsigned long)dev;
+    // dev-&gt;timer.expires = jiffies + dev-&gt;delay;
+    // add_timer(&amp;dev-&gt;timer);
+
+    dev-&gt;pre_jiffies = jiffies;
+    wait_event_interruptible(dev-&gt;wq, !dev-&gt;loops);
+    cnt = dev-&gt;buf - tmp_buf;
+
+    if (copy_to_user(buf, tmp_buf, cnt))
     {
-        ret = -ERESTARTSYS;
-        goto out_2;
+        ret = -EFAULT;
+        goto out;
     }
-mutex_lock(&amp;dev-&gt;mutex);
-}
 
-if (count &gt; dev-&gt;len)
-count = dev-&gt;len;
+*f_pos += cnt;
+ret = cnt;
 
-if (copy_to_user(buf, dev-&gt;mem, count) != 0)
-ret = -EFAULT;
-else
-{
-    dev-&gt;len = dev-&gt;len - count;
-    memcpy(dev-&gt;mem, dev-&gt;mem + count, dev-&gt;len);
-    ret = count;
-    wake_up_interruptible(&amp;dev-&gt;w_wq);
-}
-
-out_1:
-mutex_unlock(&amp;dev-&gt;mutex);
-out_2:
-remove_wait_queue(&amp;dev-&gt;r_wq, &amp;wait);
-set_current_state(TASK_RUNNING);
+out:
+kfree(tmp_buf);
 return ret;
 }
 
-static ssize_t globalfifo_write_func(struct file *filp, const char __user *buf, size_t count, loff_t *f_pos)
-{
-    int ret = -ENOMEM;
-    struct globalfifo_dev *dev = filp-&gt;private_data;
-    DECLARE_WAITQUEUE(wait, current);
-
-    mutex_lock(&amp;dev-&gt;mutex);
-    add_wait_queue(&amp;dev-&gt;w_wq, &amp;wait);
-
-    while (dev-&gt;len == GLOBALFIFO_SIZE)
-    {
-        if (filp-&gt;f_flags &amp; O_NONBLOCK)
-        {
-            ret = -EAGAIN;
-            goto out_1;
-        }
-
-    __set_current_state(TASK_INTERRUPTIBLE);
-
-    mutex_unlock(&amp;dev-&gt;mutex);
-
-    schedule();
-    if (signal_pending(current))
-    {
-        ret = -ERESTARTSYS;
-        goto out_2;
-    }
-mutex_lock(&amp;dev-&gt;mutex);
-}
-if (count &gt; GLOBALFIFO_SIZE - dev-&gt;len)
-count = GLOBALFIFO_SIZE - dev-&gt;len;
-
-if (copy_from_user(dev-&gt;mem + dev-&gt;len, buf, count))
-ret = -EFAULT;
-else
-{
-    dev-&gt;len += count;
-    wake_up_interruptible(&amp;dev-&gt;r_wq);
-    ret = count;
-}
-out_1:
-mutex_unlock(&amp;dev-&gt;mutex);
-out_2:
-remove_wait_queue(&amp;dev-&gt;w_wq, &amp;wait);
-set_current_state(TASK_RUNNING);
-return ret;
-}
-
-static long globalfifo_ioctl_func(struct file *filp, unsigned int cmd, unsigned long arg)
-{
-    struct globalfifo_dev *dev = filp-&gt;private_data;
-    int ret = 0;
-
-    // 检查幻数(返回值POSIX标准规定，也用-EINVAL)
-    if (_IOC_TYPE(cmd) != GLOBALFIFO_MAGIC)
-    return -ENOTTY;
-    // 检查命令编号
-    if (_IOC_NR(cmd) &gt; GLOBALFIFO_MAXNR)
-    return -ENOTTY;
-    // 检查命令方向，并验证用户空间指针的访问权限。
-    if (_IOC_DIR(cmd) &amp; _IOC_READ)
-    ret = !access_ok(VERIFY_WRITE, (void __user *)arg, _IOC_SIZE(cmd));
-    else if (_IOC_DIR(cmd) &amp; _IOC_WRITE)
-    ret = !access_ok(VERIFY_READ, (void __user *)arg, _IOC_SIZE(cmd));
-
-    if (ret)
-    return -EFAULT;
-
-    switch (cmd)
-    {
-    case GLOBALFIFO_CLEAR:
-        mutex_lock(&amp;dev-&gt;mutex);
-        dev-&gt;len = 0;
-        memset(dev-&gt;mem, 0, GLOBALFIFO_SIZE);
-        mutex_unlock(&amp;dev-&gt;mutex);
-        break;
-    default:
-        return -EINVAL;
-    }
-return 0;
-}
-
-static const struct file_operations globalfifo_fops =
-{
+static const struct file_operations timer_fops = {
     .owner = THIS_MODULE,
-    .read = globalfifo_read_func,
-    .write = globalfifo_write_func,
-    .unlocked_ioctl = globalfifo_ioctl_func,
-    .open = globalfifo_open_func,
-    .release = globalfifo_release_func,
+    .open = timer_open_func,
+    .release = timer_release_func,
+    .read = timer_read_func,
 };
 
-static int __init globalfifo_init_module(void)
+static int __init timer_init_module(void)
 {
-    int ret = 0, i;
-    dev_t devno = MKDEV(globalfifo_major, globalfifo_minor);
+    int ret, i;
+    dev_t devno = MKDEV(timer_major, timer_minor);
 
-    if (globalfifo_major)
-    ret = register_chrdev_region(devno, globalfifo_nr_devs, &quot;globalfifo&quot;);
+    if (timer_major)
+    ret = register_chrdev_region(devno, timer_nr_devs, &quot;timer&quot;);
     else
     {
-        ret = alloc_chrdev_region(&amp;devno, globalfifo_minor, globalfifo_nr_devs, &quot;globalfifo&quot;);
-        globalfifo_major = MAJOR(devno);
+        ret = alloc_chrdev_region(&amp;devno, timer_minor, timer_nr_devs, &quot;timer&quot;);
+        timer_major = MAJOR(devno);
     }
 
 if (ret &lt; 0)
-return ret;
-
-globalfifo_devp = kzalloc(sizeof(struct globalfifo_dev) * globalfifo_nr_devs, GFP_KERNEL);
-if (!globalfifo_devp)
 {
-    printk(KERN_WARNING &quot;alloc mem failed&quot;);
-    ret = -ENOMEM;
+    printk(KERN_ALERT &quot;register_chrdev_region failed with %d\n&quot;, ret);
     goto out_1;
 }
 
-globalfifo_cls = class_create(THIS_MODULE, &quot;globalfifo&quot;);
-if (IS_ERR(globalfifo_cls))
+timer_devp = kzalloc(sizeof(struct timer_dev) * timer_nr_devs, GFP_KERNEL);
+if (timer_devp == NULL)
 {
-    printk(KERN_WARNING &quot;Error creating class for ioctl&quot;);
+    ret = -ENOMEM;
+    printk(KERN_ALERT &quot;Out of memory\n&quot;);
     goto out_2;
 }
 
-for (i = 0; i &lt; globalfifo_nr_devs; i++)
+class = class_create(THIS_MODULE, &quot;timer_class&quot;);
+if (IS_ERR(class))
 {
-    cdev_init(&amp;globalfifo_devp[i].cdev, &amp;globalfifo_fops);
-    globalfifo_devp[i].cdev.owner = THIS_MODULE;
-    ret = cdev_add(&amp;globalfifo_devp[i].cdev, MKDEV(globalfifo_major, globalfifo_minor + i), 1);
-    if (ret)
-    printk(KERN_WARNING &quot;Error adding cdev for device %d&quot;, i);
+    ret = PTR_ERR(class);
+    printk(KERN_ALERT &quot;class_create failed with %d\n&quot;, ret);
+    goto out_3;
+}
+
+for (i = 0; i &lt; timer_nr_devs; i++)
+{
+    cdev_init(&amp;timer_devp[i].cdev, &amp;timer_fops);
+    timer_devp[i].cdev.owner = THIS_MODULE;
+    ret = cdev_add(&amp;timer_devp[i].cdev, MKDEV(timer_major, timer_minor + i), 1);
+    if (ret &lt; 0)
+    printk(KERN_ALERT &quot;cdev_add failed with %d\n&quot;, ret);
     else
     {
-        globalfifo_devp[i].class_dev = device_create(globalfifo_cls, NULL, MKDEV(globalfifo_major, globalfifo_minor + i), NULL, &quot;globalfifo%d&quot;, i);
-        if (IS_ERR(globalfifo_devp[i].class_dev))
-        printk(KERN_WARNING &quot;Error creating device for device %d&quot;, i);
+        timer_devp[i].cls_dev = device_create(class, NULL, MKDEV(timer_major, timer_minor + i), NULL, &quot;timer%d&quot;, i);
+        if (IS_ERR(timer_devp[i].cls_dev))
+        printk(KERN_ALERT &quot;device_create failed with %d\n&quot;, ret);
     }
-mutex_init(&amp;globalfifo_devp[i].mutex);
-init_waitqueue_head(&amp;globalfifo_devp[i].r_wq);
-init_waitqueue_head(&amp;globalfifo_devp[i].w_wq);
+init_waitqueue_head(&amp;timer_devp[i].wq);
 }
+
+printk(KERN_INFO &quot;timer_init\n&quot;);
 return 0;
+
+out_3:
+kfree(timer_devp);
 out_2:
-kfree(globalfifo_devp);
+unregister_chrdev_region(devno, timer_nr_devs);
 out_1:
-unregister_chrdev_region(devno, globalfifo_nr_devs);
 return ret;
 }
 
-static void __exit globalfifo_exit_module(void)
+static void __exit timer_exit_module(void)
 {
     int i;
-    for (i = 0; i &lt; globalfifo_nr_devs; i++)
+
+    for (i = 0; i &lt; timer_nr_devs; i++)
     {
-        device_destroy(globalfifo_cls, MKDEV(globalfifo_major, globalfifo_minor + i));
-        cdev_del(&amp;globalfifo_devp[i].cdev);
+        device_destroy(class, MKDEV(timer_major, timer_minor + i));
+        cdev_del(&amp;timer_devp[i].cdev);
     }
-class_destroy(globalfifo_cls);
-kfree(globalfifo_devp);
-unregister_chrdev_region(MKDEV(globalfifo_major, globalfifo_minor), globalfifo_nr_devs);
-printk(KERN_INFO &quot;globalfifo exit\n&quot;);
+class_destroy(class);
+kfree(timer_devp);
+unregister_chrdev_region(MKDEV(timer_major, timer_minor), timer_nr_devs);
+printk(KERN_INFO &quot;timer_exit\n&quot;);
 }
 
-module_param(globalfifo_major, int, S_IRUGO);
-module_param(globalfifo_minor, int, S_IRUGO);
-module_param(globalfifo_nr_devs, int, S_IRUGO);
+module_param(timer_major, int, S_IRUGO);
+module_param(timer_minor, int, S_IRUGO);
+module_param(timer_nr_devs, int, S_IRUGO);
 
-module_init(globalfifo_init_module);
-module_exit(globalfifo_exit_module);
+module_init(timer_init_module);
+module_exit(timer_exit_module);
 
 MODULE_AUTHOR(&quot;lidonghang-02&quot;);
 MODULE_LICENSE(&quot;GPL&quot;);</code></pre></td></tr></table></figure>
-<h4 id="globalfifo.h"><a href="#globalfifo.h" class="headerlink" title="globalfifo.h"></a>globalfifo.h</h4>
-<figure class="highlight c"><table><tr><td class="code"><pre><code class="hljs c">#ifndef _GLOBALFIFO_H_
-#define _GLOBALFIFO_H_
-
-#define GLOBALFIFO_MAGIC &#x27;c&#x27;
-
-#define GLOBALFIFO_CLEAR _IO(GLOBALFIFO_MAGIC, 0)
-
-#define GLOBALFIFO_MAXNR 0
-
-#endif /* _GLOBALFIFO_H_ */</code></pre></td></tr></table></figure>
 </div>
           </article>
                 </div>

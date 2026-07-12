@@ -33,6 +33,13 @@
 
     var kind = pageKind();
     body.classList.add("tech-shell", kind);
+    if (kind !== "site-post") {
+      window.refreshArticleToc = null;
+      body.classList.remove("site-toc-hidden");
+      document.querySelectorAll('[data-site-detached-toc="1"]').forEach(function (node) {
+        node.parentElement && node.parentElement.removeChild(node);
+      });
+    }
     var run = function (name, callback) {
       try {
         callback();
@@ -55,7 +62,9 @@
     run("applyColorToggle", applyColorToggle);
     run("applyNavToggle", function () { applyNavToggle(body); });
     run("applyMobileNavDrawer", applyMobileNavDrawer);
+    run("limitHomeExcerpts", function () { limitHomeExcerpts(body); });
     run("applyHomePagination", function () { applyHomePagination(body); });
+    run("ensureMarkdownReader", function () { ensureMarkdownReader(body); });
     run("repairPostStructure", function () { repairPostStructure(body); });
     run("applyPostTitle", function () { applyPostTitle(body); });
     run("applyPostMeta", function () { applyPostMeta(body); });
@@ -74,6 +83,16 @@
   function removeBoardLabel() {
     document.querySelectorAll(".site-board-label").forEach(function (label) {
       label.parentNode && label.parentNode.removeChild(label);
+    });
+  }
+
+  function limitHomeExcerpts(body) {
+    if (!body.classList.contains("site-home")) {
+      return;
+    }
+    document.querySelectorAll(".index-excerpt > div").forEach(function (excerpt) {
+      var text = excerpt.textContent.replace(/\s+/g, " ").trim();
+      excerpt.textContent = Array.from(text).slice(0, 200).join("");
     });
   }
 
@@ -352,12 +371,25 @@
       document.body.classList.add(pageKind());
     };
 
-    var swapDocument = function (html, href, shouldPush) {
+    var swapDocument = function (html, href, shouldPush, titleHint) {
       var next = new DOMParser().parseFromString(html, "text/html");
       var nextMain = next.querySelector("main");
       if (!nextMain) {
         throw new Error("navigation target missing main");
       }
+
+      if (/^\/20\d{2}\//.test(new URL(href, window.location.href).pathname) && titleHint) {
+        var nextSubtitle = next.querySelector("#subtitle");
+        if (nextSubtitle) {
+          nextSubtitle.setAttribute("data-typed-text", titleHint);
+          nextSubtitle.textContent = titleHint;
+        }
+        next.title = titleHint + " - LDH blog";
+      }
+
+      document.querySelectorAll('[data-site-detached-toc="1"]').forEach(function (node) {
+        node.parentElement && node.parentElement.removeChild(node);
+      });
 
       var selectors = ["header", "main", "footer"];
       selectors.forEach(function (selector) {
@@ -369,14 +401,14 @@
       });
 
       document.title = next.title || document.title;
-      updateBodyKind();
-      applyShell();
-      normalizeAll();
-      runWhenIdle(prefetchLikelyTargets, 900);
-
       if (shouldPush) {
         history.pushState({ siteShell: true }, document.title, href);
       }
+      updateBodyKind();
+      applyShell();
+      normalizeAll();
+      document.dispatchEvent(new CustomEvent("site:navigated", { detail: { href: href } }));
+      runWhenIdle(prefetchLikelyTargets, 900);
 
       var hash = new URL(href, window.location.href).hash;
       if (hash) {
@@ -396,7 +428,7 @@
       window.scrollTo(0, 0);
     };
 
-    var renderFetchedPage = function (href, shouldPush) {
+    var renderFetchedPage = function (href, shouldPush, titleHint) {
       var token = ++activeNavigation;
       document.documentElement.classList.add("site-pjax-loading");
       return fetchPage(href).then(function (html) {
@@ -404,7 +436,7 @@
           return;
         }
         var render = function () {
-          swapDocument(html, href, shouldPush);
+          swapDocument(html, href, shouldPush, titleHint);
         };
         if (document.startViewTransition) {
           return document.startViewTransition(render).finished;
@@ -432,7 +464,19 @@
       }
       event.preventDefault();
       closeMobileNav();
-      renderFetchedPage(target, true);
+      var titleHint = "";
+      var card = link.closest(".index-card");
+      var cardTitle = card && card.querySelector(".index-header");
+      if (cardTitle) {
+        titleHint = cardTitle.textContent.trim();
+      }
+      if (!titleHint) {
+        var targetPath = decodeURIComponent(new URL(target, window.location.href).pathname.replace(/index\.html$/, ""));
+        if (targetPath.charAt(targetPath.length - 1) !== "/") targetPath += "/";
+        var post = getPostRegistry().find(function (item) { return item.path === targetPath; });
+        titleHint = post ? post.title : "";
+      }
+      renderFetchedPage(target, true, titleHint);
     };
 
     normalizeAll();
@@ -462,7 +506,9 @@
 
   function applyHomeTitle(body) {
     if (!body.classList.contains('site-home')) return;
+    var homePath = window.location.pathname;
     var sync = function () {
+      if (window.location.pathname !== homePath || !document.body.classList.contains('site-home')) return;
       var subtitle = document.querySelector('#subtitle');
       if (!subtitle) return;
       subtitle.setAttribute('data-typed-text', 'LDH Blog');
@@ -818,6 +864,9 @@
     if (!body.classList.contains("site-post")) {
       return;
     }
+    if (window.MdReaderReady) {
+      return;
+    }
 
     var title = document.querySelector("#seo-header");
     var subtitle = document.querySelector("#subtitle");
@@ -841,6 +890,37 @@
     window.setTimeout(syncTitle, 600);
     window.setTimeout(syncTitle, 1600);
     window.addEventListener("load", syncTitle);
+  }
+
+  function ensureMarkdownReader(body) {
+    if (!body.classList.contains("site-post") || !/^\/20\d{2}\//.test(window.location.pathname)) {
+      return;
+    }
+    if (window.loadMarkdownArticle) {
+      window.loadMarkdownArticle();
+      return;
+    }
+
+    var loadReader = function () {
+      if (window.MdReaderReady || document.querySelector('script[data-md-reader]')) return;
+      var reader = document.createElement('script');
+      reader.src = '/js/md-reader.js';
+      reader.defer = true;
+      reader.setAttribute('data-md-reader', '1');
+      document.head.appendChild(reader);
+    };
+
+    if (window.marked) {
+      loadReader();
+      return;
+    }
+    if (!document.querySelector('script[data-marked-reader]')) {
+      var markedScript = document.createElement('script');
+      markedScript.src = '/js/vendor/marked.umd.js';
+      markedScript.setAttribute('data-marked-reader', '1');
+      markedScript.addEventListener('load', loadReader, { once: true });
+      document.head.appendChild(markedScript);
+    }
   }
 
   function applyPostMeta(body) {
@@ -945,6 +1025,13 @@
         return;
       }
       var host = pre.closest("figure.highlight, .code-wrapper") || pre;
+      if (host === pre && pre.parentNode) {
+        var wrapper = document.createElement("div");
+        wrapper.className = "code-wrapper";
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+        host = wrapper;
+      }
       var code = host.querySelector("td.code code, pre code, code") || pre.querySelector("code");
       if (!code) {
         return;
@@ -1002,6 +1089,18 @@
         }
       });
 
+      document.querySelectorAll(".markdown-body pre code[class*='language-']").forEach(function (code) {
+        var languageClass = Array.prototype.slice.call(code.classList).find(function (name) {
+          return name.indexOf("language-") === 0;
+        });
+        var language = languageClass ? languageClass.slice(9).toLowerCase() : "";
+        if ((language === "c" || language === "cpp") && !code.dataset.siteHighlighted && !code.querySelector("[class^='hljs-'], [class*=' hljs-']")) {
+          applyCLikeHighlight(code);
+          code.classList.add("hljs");
+          code.dataset.siteHighlighted = "1";
+        }
+      });
+
       document.querySelectorAll(".markdown-body pre").forEach(function (pre) {
         if (!pre.classList.contains("site-code-pre")) {
           pre.classList.add("site-code-pre");
@@ -1047,14 +1146,15 @@
       observer.observe(document.body, { childList: true, subtree: true });
     }
 
-    var needsHighlight = Array.prototype.slice.call(document.querySelectorAll(".markdown-body figure.highlight code")).some(function (code) {
+    var highlightTargets = ".markdown-body figure.highlight code, .markdown-body pre code[class*='language-']";
+    var needsHighlight = Array.prototype.slice.call(document.querySelectorAll(highlightTargets)).some(function (code) {
       return !code.dataset.siteHighlighted && !code.querySelector("[class^='hljs-'], [class*=' hljs-']");
     });
     var runHighlight = function () {
       if (!window.hljs) {
         return;
       }
-      document.querySelectorAll(".markdown-body figure.highlight code").forEach(function (code) {
+      document.querySelectorAll(highlightTargets).forEach(function (code) {
         if (!code.dataset.siteHighlighted && !code.querySelector("[class^='hljs-'], [class*=' hljs-']")) {
           window.hljs.highlightElement(code);
           code.dataset.siteHighlighted = "1";
@@ -1189,13 +1289,20 @@
       board.parentElement.insertBefore(comments, board.nextSibling);
     }
 
+    var commentPath = window.location.pathname.replace(/index\.html$/, "");
+    if (comments.dataset.siteCommentPath && comments.dataset.siteCommentPath !== commentPath) {
+      comments.innerHTML = '<div id="valine"></div><noscript>Please enable JavaScript to view the comments</noscript>';
+      delete comments.dataset.siteCommentsReady;
+    }
+    comments.dataset.siteCommentPath = commentPath;
+
     var init = function () {
       if (window.Valine && document.querySelector("#valine") && !document.querySelector("#valine .vwrap")) {
         new window.Valine({
           el: "#valine",
           appId: "0r6Gu1FDMfgWqlGYZ7ajgr5Z-MdYXbMMI",
           appKey: "lDtuGLuwzxbRgeIpWrrzqVeV",
-          path: window.location.pathname,
+          path: commentPath,
           avatar: "retro",
           meta: ["nick", "mail"],
           pageSize: 10,
@@ -1654,6 +1761,7 @@
     if (tocCol.parentNode !== document.body) {
       document.body.appendChild(tocCol);
     }
+    tocCol.setAttribute("data-site-detached-toc", "1");
 
     var buildFallbackToc = function () {
       var tocBody = document.querySelector("#toc-body");
@@ -1694,10 +1802,10 @@
 
     var measureTocWidth = function (availableWidth) {
       var links = tocCol.querySelectorAll(".tocbot-link");
-      var minWidth = 120;
-      var maxWidth = Math.min(420, availableWidth);
+      var minWidth = 160;
+      var maxWidth = Math.min(320, availableWidth);
       if (!links.length || maxWidth <= minWidth) {
-        return minWidth;
+        return { width: Math.max(0, maxWidth), capped: links.length > 0 };
       }
 
       var measurer = document.createElement("span");
@@ -1726,7 +1834,10 @@
       });
 
       document.body.removeChild(measurer);
-      return Math.min(maxWidth, Math.max(minWidth, widest));
+      return {
+        width: Math.min(maxWidth, Math.max(minWidth, widest)),
+        capped: widest > maxWidth
+      };
     };
 
     var placement = null;
@@ -1736,8 +1847,12 @@
       }
       var tocBox = document.querySelector("#toc");
       var tocBody = document.querySelector("#toc-body") || document.querySelector(".toc-body");
+      var sidebar = tocCol.querySelector(".sidebar");
+      tocCol.classList.toggle("site-toc-width-capped", !!placement.capped);
       body.classList.toggle("site-toc-hidden", !placement.hasRoom);
       tocCol.style.setProperty("padding-top", "0px", "important");
+      tocCol.style.setProperty("padding-left", "0px", "important");
+      tocCol.style.setProperty("padding-right", "0px", "important");
       tocCol.style.setProperty("margin-top", "0px", "important");
       tocCol.style.setProperty("transform", "none", "important");
       if (placement.hasRoom) {
@@ -1750,7 +1865,21 @@
         tocCol.style.setProperty("right", "auto", "important");
         tocCol.style.setProperty("width", placement.width + "px", "important");
         tocCol.style.setProperty("max-width", placement.width + "px", "important");
+        tocCol.style.setProperty("max-height", "calc(100vh - " + (placement.top + 20) + "px)", "important");
+        tocCol.style.setProperty("overflow-x", "hidden", "important");
+        tocCol.style.setProperty("overflow-y", "auto", "important");
         tocCol.style.setProperty("z-index", "4", "important");
+        if (sidebar) {
+          sidebar.style.setProperty("position", "static", "important");
+          sidebar.style.setProperty("top", "auto", "important");
+          sidebar.style.setProperty("left", "auto", "important");
+          sidebar.style.setProperty("right", "auto", "important");
+          sidebar.style.setProperty("width", "100%", "important");
+          sidebar.style.setProperty("margin", "0", "important");
+          sidebar.style.setProperty("transform", "none", "important");
+          sidebar.style.setProperty("padding-left", "0px", "important");
+          sidebar.style.setProperty("padding-right", "0px", "important");
+        }
         if (tocBox) {
           tocBox.style.setProperty("position", "static", "important");
           tocBox.style.setProperty("top", "auto", "important");
@@ -1758,12 +1887,13 @@
           tocBox.style.setProperty("right", "auto", "important");
           tocBox.style.setProperty("transform", "none", "important");
           tocBox.style.setProperty("width", "100%", "important");
-          tocBox.style.setProperty("max-height", "none", "important");
+          tocBox.style.setProperty("max-height", "100%", "important");
           tocBox.style.setProperty("overflow", "visible", "important");
         }
         if (tocBody) {
           tocBody.style.setProperty("max-height", "none", "important");
-          tocBody.style.setProperty("overflow", "visible", "important");
+          tocBody.style.setProperty("overflow-x", placement.capped ? "auto" : "visible", "important");
+          tocBody.style.setProperty("overflow-y", "visible", "important");
           tocBody.style.setProperty("transform", "none", "important");
           tocBody.scrollTop = 0;
         }
@@ -1775,16 +1905,18 @@
     var update = function () {
       var anchor = document.querySelector("#board") || content;
       var contentRect = anchor.getBoundingClientRect();
-      var gap = 4;
+      var gap = 16;
       var rightSideLeft = Math.round(contentRect.right + gap);
       var availableRight = window.innerWidth - rightSideLeft - 24;
-      var tocWidth = measureTocWidth(availableRight);
+      var tocMeasure = measureTocWidth(availableRight);
+      var tocWidth = tocMeasure.width;
       var hasRoom = window.innerWidth >= 1280 && rightSideLeft + tocWidth + 24 <= window.innerWidth;
       placement = {
         hasRoom: hasRoom,
-        left: placement ? placement.left : rightSideLeft,
-        top: placement ? placement.top : 128,
-        width: tocWidth
+        left: rightSideLeft,
+        top: 104,
+        width: tocWidth,
+        capped: tocMeasure.capped
       };
       applyPlacement();
     };
@@ -1805,11 +1937,10 @@
       update();
     });
     window.addEventListener("load", update);
-    window.addEventListener("scroll", function () {
-      applyPlacement();
-      window.requestAnimationFrame(applyPlacement);
-    }, { passive: true });
-
+    window.refreshArticleToc = function () {
+      placement = null;
+      update();
+    };
     if ("MutationObserver" in window) {
       var observer = new MutationObserver(applyPlacement);
       observer.observe(tocCol, { childList: true, subtree: true, characterData: true });
