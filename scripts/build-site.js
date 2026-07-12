@@ -5,7 +5,15 @@ const { marked } = require('../js/vendor/marked.umd.js');
 const root = path.resolve(__dirname, '..');
 const output = path.join(root, '_site');
 const templatePath = path.join(root, 'reader.html');
-const excludedTopLevel = new Set(['.git', '.github', '_site', 'scripts', 'AGENTS.md']);
+const excludedTopLevel = new Set([
+  '.git',
+  '.github',
+  '_site',
+  'scripts',
+  'AGENTS.md',
+  'DEVELOPMENT_DESIGN.md',
+  'csdn_export_report.md'
+]);
 
 function removeDirectory(target) {
   fs.rmSync(target, { recursive: true, force: true });

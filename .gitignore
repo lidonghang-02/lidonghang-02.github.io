@@ -1,1 +1,6 @@
 _site/
+
+# Local development and migration references; never publish with the blog.
+/AGENTS.md
+/DEVELOPMENT_DESIGN.md
+/csdn_export_report.md
