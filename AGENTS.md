@@ -20,6 +20,7 @@
 14. 正文图片与 `index.md` 同目录存放并使用相对路径引用。
 15. 首页每篇文章的简介最多展示正文前 200 个可见字符。
 16. Markdown 运行时生成的代码块必须保持语法高亮；复制按钮固定在代码容器右上方，不得追加到代码内容末尾。
+17. 正文必须由 Jekyll/Kramdown/Rouge 在构建期转换并完成语法高亮；浏览器不得再次使用 Marked 或 Highlight.js 解析、替换或重写已经编译的正文。浏览器端代码增强仅限包装滚动容器、添加语言信息和复制按钮。
 
 ## 已发生的问题与原因
 
@@ -73,6 +74,11 @@
 
 - 原因：旧 Hexo 构建结果已经生成 `figure.highlight` 和 `hljs-*` 标记；Marked 运行时只生成 `pre > code.language-*`。若增强逻辑仍只处理旧结构，就不会触发高亮。把复制按钮直接追加到 `pre` 末尾，再使用浮动定位，会使按钮落在代码末尾。
 - 正确方案：运行时为 `pre` 建立 `.code-wrapper`，复制按钮作为容器的直接子元素绝对定位在右上角；高亮逻辑同时覆盖 `figure.highlight code` 和 `pre code.language-*`。
+
+### 构建期 Rouge 高亮被浏览器再次改写
+
+- 原因：Jekyll/Rouge 已在构建阶段生成 `.k`、`.kt`、`.s`、`.c1` 等语法标记，但旧兼容逻辑还会加载 Marked/Highlight.js 或用 JavaScript 重写 `code.innerHTML`，造成正文结构、颜色和复制按钮位置不稳定。
+- 正确方案：以 Jekyll 编译结果为唯一正文 HTML；使用文章页专用 `css/rouge.css` 为 Rouge 标记着色；浏览器代码只建立滚动/复制容器，不解析 Markdown、不重新高亮、不重写代码内容。
 
 ### 目录文字超出背景、宽度没有按标题变化
 

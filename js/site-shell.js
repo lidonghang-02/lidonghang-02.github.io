@@ -64,7 +64,6 @@
     run("applyMobileNavDrawer", applyMobileNavDrawer);
     run("limitHomeExcerpts", function () { limitHomeExcerpts(body); });
     run("applyHomePagination", function () { applyHomePagination(body); });
-    run("ensureMarkdownReader", function () { ensureMarkdownReader(body); });
     run("repairPostStructure", function () { repairPostStructure(body); });
     run("applyPostTitle", function () { applyPostTitle(body); });
     run("applyPostMeta", function () { applyPostMeta(body); });
@@ -892,40 +891,6 @@
     window.addEventListener("load", syncTitle);
   }
 
-  function ensureMarkdownReader(body) {
-    if (body.getAttribute("data-article-compiled") === "true") {
-      return;
-    }
-    if (!body.classList.contains("site-post") || !/^\/20\d{2}\//.test(window.location.pathname)) {
-      return;
-    }
-    if (window.loadMarkdownArticle) {
-      window.loadMarkdownArticle();
-      return;
-    }
-
-    var loadReader = function () {
-      if (window.MdReaderReady || document.querySelector('script[data-md-reader]')) return;
-      var reader = document.createElement('script');
-      reader.src = '/js/md-reader.js';
-      reader.defer = true;
-      reader.setAttribute('data-md-reader', '1');
-      document.head.appendChild(reader);
-    };
-
-    if (window.marked) {
-      loadReader();
-      return;
-    }
-    if (!document.querySelector('script[data-marked-reader]')) {
-      var markedScript = document.createElement('script');
-      markedScript.src = '/js/vendor/marked.umd.js';
-      markedScript.setAttribute('data-marked-reader', '1');
-      markedScript.addEventListener('load', loadReader, { once: true });
-      document.head.appendChild(markedScript);
-    }
-  }
-
   function applyPostMeta(body) {
     if (!body.classList.contains("site-post")) {
       return;
@@ -987,6 +952,14 @@
   function applyCodeBlocks(body) {
     if (!body.classList.contains("site-post")) {
       return;
+    }
+
+    if (!document.querySelector('link[data-site-rouge]')) {
+      var rougeStyles = document.createElement("link");
+      rougeStyles.rel = "stylesheet";
+      rougeStyles.href = "/css/rouge.css?v=20260712-1";
+      rougeStyles.setAttribute("data-site-rouge", "1");
+      document.head.appendChild(rougeStyles);
     }
 
     var scheduled = false;
@@ -1093,24 +1066,6 @@
         var code = figure.querySelector("td.code code, pre code");
         if (language && code) {
           code.classList.add("language-" + language);
-          if ((language === "c" || language === "cpp") && !code.dataset.siteHighlighted && !code.querySelector("[class^='hljs-'], [class*=' hljs-']")) {
-            applyCLikeHighlight(code);
-            code.dataset.siteHighlighted = "1";
-          } else if (code.querySelector("[class^='hljs-'], [class*=' hljs-']")) {
-            code.dataset.siteHighlighted = "1";
-          }
-        }
-      });
-
-      document.querySelectorAll(".markdown-body pre code[class*='language-']").forEach(function (code) {
-        var languageClass = Array.prototype.slice.call(code.classList).find(function (name) {
-          return name.indexOf("language-") === 0;
-        });
-        var language = languageClass ? languageClass.slice(9).toLowerCase() : "";
-        if ((language === "c" || language === "cpp") && !code.dataset.siteHighlighted && !code.querySelector("[class^='hljs-'], [class*=' hljs-']")) {
-          applyCLikeHighlight(code);
-          code.classList.add("hljs");
-          code.dataset.siteHighlighted = "1";
         }
       });
 
@@ -1159,57 +1114,6 @@
       observer.observe(document.body, { childList: true, subtree: true });
     }
 
-    var highlightTargets = ".markdown-body figure.highlight code, .markdown-body pre code[class*='language-']";
-    var needsHighlight = Array.prototype.slice.call(document.querySelectorAll(highlightTargets)).some(function (code) {
-      return !code.dataset.siteHighlighted && !code.querySelector("[class^='hljs-'], [class*=' hljs-']");
-    });
-    var runHighlight = function () {
-      if (!window.hljs) {
-        return;
-      }
-      document.querySelectorAll(highlightTargets).forEach(function (code) {
-        if (!code.dataset.siteHighlighted && !code.querySelector("[class^='hljs-'], [class*=' hljs-']")) {
-          window.hljs.highlightElement(code);
-          code.dataset.siteHighlighted = "1";
-        }
-      });
-    };
-    if (needsHighlight) {
-      if (window.hljs) {
-        runHighlight();
-      } else if (window.Fluid && Fluid.utils && Fluid.utils.createScript) {
-        Fluid.utils.createScript("https://lib.baomitu.com/highlight.js/11.9.0/highlight.min.js", runHighlight);
-      }
-    }
-  }
-
-  function applyCLikeHighlight(code) {
-    var source = code.textContent || "";
-    var escapeHtml = function (text) {
-      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    };
-    var keywords = /^(auto|break|case|const|continue|default|do|else|enum|extern|for|goto|if|register|return|sizeof|static|struct|switch|typedef|union|volatile|while|class|public|private|protected|template|typename|namespace|new|delete|this)$/;
-    var types = /^(char|double|float|int|long|short|signed|unsigned|void|bool|size_t|uint8_t|uint16_t|uint32_t|uint64_t|int8_t|int16_t|int32_t|int64_t)$/;
-    var builtins = /^(printf|scanf|malloc|free|memset|memcpy|strlen|strcpy|open|read|write|close|ioctl|poll|select|copy_to_user|copy_from_user|printk|module_init|module_exit)$/;
-    var token = /(\/\*[\s\S]*?\*\/|\/\/[^\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|#[^\n]*|\b[A-Za-z_][A-Za-z0-9_]*\b|\b\d+(?:\.\d+)?\b)/g;
-    var html = "";
-    var last = 0;
-    source.replace(token, function (match, _token, offset) {
-      html += escapeHtml(source.slice(last, offset));
-      var cls = "";
-      if (match.indexOf("/*") === 0 || match.indexOf("//") === 0) cls = "hljs-comment";
-      else if (match.charAt(0) === '"' || match.charAt(0) === "'") cls = "hljs-string";
-      else if (match.charAt(0) === "#") cls = "hljs-meta";
-      else if (keywords.test(match)) cls = "hljs-keyword";
-      else if (types.test(match)) cls = "hljs-type";
-      else if (builtins.test(match)) cls = "hljs-built_in";
-      else if (/^\d/.test(match)) cls = "hljs-number";
-      html += cls ? '<span class="' + cls + '">' + escapeHtml(match) + '</span>' : escapeHtml(match);
-      last = offset + match.length;
-      return match;
-    });
-    html += escapeHtml(source.slice(last));
-    code.innerHTML = html;
   }
 
   function applyPostNavigation(body) {
