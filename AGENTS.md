@@ -5,7 +5,7 @@
 ## 用户明确要求
 
 1. 文章正文以 Markdown 为唯一源码；`2023/`、`2024/` 源码目录中只能提交 `index.md` 和正文图片，不得手写或提交逐文章 `index.html`。
-2. GitHub Actions 构建阶段必须以根目录 `reader.html` 为统一模板，在临时 `_site` 产物中生成逐文章 `index.html`；生成文件不得回写文章源码目录或提交到源码分支。
+2. GitHub Pages 使用原生 Jekyll 构建；`reader.html` 是统一文章 layout。Jekyll 在部署阶段生成逐文章 `index.html`，生成文件不得回写文章源码目录或提交到源码分支。
 3. 不得随意回退、恢复或覆盖已有代码。尤其禁止为了快速恢复功能而使用 `git restore`、`git checkout`、归档覆盖等方式恢复已删除的文章 HTML。
 4. 修改共享 CSS、导航、PJAX、阅读器或目录逻辑时，必须检查首页、文章、文章间跳转、浏览器返回、归档、分类、标签、关于、评论、主题切换和移动端是否受影响。
 5. 侧边栏品牌始终显示 `LDH Blog`；不得替换成文章标题。
@@ -90,7 +90,9 @@
 - Docker 文章图片：`2023/12/01/在docker上搭建D1-H哪吒开发板环境/1.png` 至 `3.png`
 - STM32 温室文章图片：`2024/03/05/基于STM32的温室控制系统/1.png` 至 `10.png`
 - 全站图片与图标：`img/`
-- 共享文章阅读器：`reader.html`
+- 共享文章/Jekyll layout：`reader.html`
+- Jekyll 构建配置：`_config.yml`
+- Jekyll 文章注册表模板：`js/post-registry.generated.js`
 - Markdown 渲染逻辑：`js/md-reader.js`
 - 页面共享行为：`js/site-shell.js`
 - 预览 Markdown 路由：`../tools/static-preview-8123.js`

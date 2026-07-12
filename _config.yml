@@ -1,0 +1,20 @@
+title: LDH Blog
+url: https://lidonghang.com
+layouts_dir: .
+markdown: kramdown
+highlighter: rouge
+
+defaults:
+  - scope:
+      path: "2023"
+    values:
+      layout: reader
+  - scope:
+      path: "2024"
+    values:
+      layout: reader
+
+exclude:
+  - AGENTS.md
+  - scripts
+  - _site

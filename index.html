@@ -1,5 +1,7 @@
 
 
+---
+---
 <!DOCTYPE html>
 <html lang="zh-CN" data-default-color-scheme=auto>
 
@@ -247,6 +249,21 @@
               <div class="col-12 col-md-10 m-auto">
 
 <!-- POST_LIST_START -->
+{% assign blog_posts = site.pages | where_exp: "post", "post.path contains '2023/' or post.path contains '2024/'" | where_exp: "post", "post.ext == '.md'" | sort: "date" | reverse %}
+{% if blog_posts.size > 0 %}
+{% for post in blog_posts %}
+  <div class="row mx-auto index-card csdn-exported-card">
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h2 class="index-header"><a href="{{ post.url | relative_url }}" target="_self">{{ post.title | escape }}</a></h2>
+      <a class="index-excerpt index-excerpt__noimg" href="{{ post.url | relative_url }}" target="_self"><div>{{ post.description | default: post.content | strip_html | strip_newlines | truncate: 200 }}</div></a>
+      <div class="index-btm post-metas">
+        <div class="post-meta mr-3"><i class="iconfont icon-date"></i><time datetime="{{ post.date | date: '%Y-%m-%d' }}" pubdate>{{ post.date | date: "%Y-%m-%d" }}</time></div>
+        <div class="post-meta mr-3"><i class="iconfont icon-category"></i><a href="/categories/">{{ post.categories | default: "未分类" }}</a></div>
+      </div>
+    </article>
+  </div>
+{% endfor %}
+{% else %}
   <div class="row mx-auto index-card csdn-exported-card">
     <article class="col-12 col-md-12 mx-auto index-info">
       <h2 class="index-header">
@@ -856,6 +873,7 @@
     </article>
   </div>
 <!-- POST_LIST_END -->
+{% endif %}
 
 
 
