@@ -893,6 +893,9 @@
   }
 
   function ensureMarkdownReader(body) {
+    if (body.getAttribute("data-article-compiled") === "true") {
+      return;
+    }
     if (!body.classList.contains("site-post") || !/^\/20\d{2}\//.test(window.location.pathname)) {
       return;
     }
@@ -1503,6 +1506,9 @@
   }
 
   function getPostRegistry() {
+    if (Array.isArray(window.BLOG_POSTS) && window.BLOG_POSTS.length) {
+      return window.BLOG_POSTS.slice();
+    }
     return [
       {
             "title": "简单字符型设备驱动",

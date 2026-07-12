@@ -72,6 +72,7 @@
   }
 
   function loadMarkdown() {
+    if (document.body && document.body.getAttribute('data-article-compiled') === 'true') return;
     var url = markdownUrl();
     var container = document.querySelector('.post-content .markdown-body');
     if (!url || !container || !window.marked) return;
