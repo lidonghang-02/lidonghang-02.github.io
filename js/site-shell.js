@@ -1517,7 +1517,15 @@
 
   function getPostRegistry() {
     if (Array.isArray(window.BLOG_POSTS) && window.BLOG_POSTS.length) {
-      return window.BLOG_POSTS.filter(function (item) { return item && item.path; });
+      return window.BLOG_POSTS.filter(function (item) { return item && item.path; }).map(function (item) {
+        var normalized = Object.assign({}, item);
+        try {
+          normalized.path = decodeURIComponent(item.path);
+        } catch (_error) {
+          normalized.path = item.path;
+        }
+        return normalized;
+      });
     }
     return [
       {
